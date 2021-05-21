@@ -60,3 +60,9 @@ if (population > 33) {
 // } else {
 // 	console.log("no borders");
 // }
+
+// if (language === "English" && population < 50 && !isIsland) {
+// 	console.log(`you should live in ${country}!`);
+// } else {
+// 	console.log(`${country} does not meet your criteria`);
+// }
