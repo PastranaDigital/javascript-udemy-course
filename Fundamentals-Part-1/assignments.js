@@ -66,3 +66,52 @@ if (population > 33) {
 // } else {
 // 	console.log(`${country} does not meet your criteria`);
 // }
+
+
+
+// Switch statement. Strict comparison
+// switch (language) {
+//     case 'Chinese':
+//     case 'Mandarin':
+//         console.log('MOST speakers');
+//         break;
+//     case 'Spanish':
+//         console.log('2nd');
+//         break;
+//     case 'English':
+//         console.log('3rd');
+//         break;
+
+//     default:
+//         console.log('not valid');
+//         break;
+// }
+
+// IF-ELSE version
+// if (language === 'Chinese' || language === 'Mandarin'){
+//     console.log('MOST speakers');
+// } else if (language === 'Spanish') {
+//     console.log('2nd');
+// } else if (language === 'English') {
+//     console.log('3rd');
+// } else {
+//     console.log('not valid');
+// }
+
+
+
+
+
+// Ternary Operator
+// [ Condition ]  ?  [ Single action if TRUE ] : [ Single action if FALSE ]
+
+// population > 33 ? console.log('above average') : console.log('below average');
+
+// OR
+
+// const result = population > 33 ? 'above' : 'below';
+// console.log(`${country}' population is ${result} average`);
+
+// OR
+
+// console.log(`${country}' population is ${population > 33 ? 'above' : 'below'} average`);
