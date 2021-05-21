@@ -11,7 +11,8 @@ const language = "English";
 const finlandPopulation = 6;
 const description1 = "Portugal is in Europe, and its 11 million people speak portuguese";
 
-const description2 = country + " is in " + continent + ", and its " + population + " million people speak " + language;
+// const description2 = country + " is in " + continent + ", and its " + population + " million people speak " + language;
+const description2 = `${country} is in ${continent}, and its ${population} million people speak ${language}`;
 
 // console.log(description2);
 
@@ -24,3 +25,38 @@ const description2 = country + " is in " + continent + ", and its " + population
 
 // console.log("1/2 population: " + population / 2);
 // console.log(population > finlandPopulation);
+
+if (population > 33) {
+	// console.log(`${country}' population is above average`);
+} else {
+	// console.log(`${country}' population is ${33 - population} million below average`);
+}
+
+"9" - "5"; // number 4
+"19" - "13" + "17"; // string 617
+"19" - "13" + 17; // number 23
+"123" < 57; // boolean false
+5 + 6 + "4" + 9 - 4 - 2; // number 1143
+// 11 + "4" + 9 - 4 - 2
+// "114" + 9 - 4 - 2
+// "1149" - 4 - 2
+// 1145 - 2
+// 1143
+
+// console.log("9" - "5");
+// console.log("19" - "13" + "17");
+// console.log("19" - "13" + 17);
+// console.log("123" < 57);
+// console.log(5 + 6 + "4" + 9 - 4 - 2);
+
+
+
+// const numNeighbours = Number(prompt("How many neighbor countries does your Country have?"));
+
+// if (numNeighbours === 1) {
+// 	console.log("only 1 border");
+// } else if (numNeighbours > 1) {
+// 	console.log("more than 1 border");
+// } else {
+// 	console.log("no borders");
+// }
