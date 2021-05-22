@@ -7,4 +7,4 @@ function describeCountry(country, population, capitalCity) {
 }
 
 const answer = describeCountry("Finland", 6, "Helsinki");
-console.log(`answer: ${answer}`);
+// console.log(`answer: ${answer}`);
