@@ -54,7 +54,7 @@ const age2 = calcAge2(1982);
 // example of 1 liner & therefore no need for a return statement
 const calcAge3 = (birthYear) => 2021 - birthYear;
 const age3 = calcAge3(1982);
-console.log(age3);
+// console.log(age3);
 
 // example of multi line execution
 // const yearsUntilRetirement = (birthYear) => {
@@ -65,9 +65,9 @@ console.log(age3);
 // console.log(yearsUntilRetirement(1982));
 
 // example of multi arguments & multi line execution
-const yearsUntilRetirement = (birthYear, firstName) => {
-	const age = 2021 - birthYear;
-	const retirement = 62 - age;
-	return `${firstName} retires in ${retirement} years`;
-};
-console.log(yearsUntilRetirement(1982, "Omar"));
+// const yearsUntilRetirement = (birthYear, firstName) => {
+// 	const age = 2021 - birthYear;
+// 	const retirement = 62 - age;
+// 	return `${firstName} retires in ${retirement} years`;
+// };
+// console.log(yearsUntilRetirement(1982, "Omar"));
