@@ -98,3 +98,18 @@ friends.push(23);
 if (friends.includes("Mick")) {
 	// console.log("You have a friend named Mick");
 }
+
+// OBJECTS
+// example of arrays
+const jonasArray = ["Jonas", "Schmedtmann", 2021 - 1991, "teacher", ["Michael", "Peter", "Steven"]];
+
+// example of objects
+const jonasObject = {
+	firstName: "Jonas", // this is a property of the object
+	lastName: "Schmedtmann",
+	age: 2021 - 1991,
+	job: "teacher",
+	friends: ["Michael", "Peter", "Steven"],
+};
+
+console.log(jonasObject);

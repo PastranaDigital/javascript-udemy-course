@@ -33,7 +33,7 @@ neighbors.push("Utopia");
 neighbors.pop();
 
 if (!neighbors.includes("Germany")) {
-	console.log("Probably not a central European country :D");
+	// console.log("Probably not a central European country :D");
 }
 
 const newNeighbors = ["Angola", "Zambia", "Mozambique", "Congo", "Tanzania"];
@@ -41,5 +41,5 @@ if (neighbors.length < newNeighbors.length) {
 	for (let index = 0; index < neighbors.length; index++) {
 		neighbors[index] = newNeighbors[index];
 	}
-	console.log("neighbors: ", neighbors, "newNeighbors: ", newNeighbors);
+	// console.log("neighbors: ", neighbors, "newNeighbors: ", newNeighbors);
 }
