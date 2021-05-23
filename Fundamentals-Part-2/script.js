@@ -71,3 +71,30 @@ const age3 = calcAge3(1982);
 // 	return `${firstName} retires in ${retirement} years`;
 // };
 // console.log(yearsUntilRetirement(1982, "Omar"));
+
+// ARRAYS & ARRAY METHODS
+const friends = ["Mick", "Dalton", "Jonathan"];
+// Add elements methods
+friends.push("Brett"); // adds to the end
+const newLength = friends.push("Brian"); // push calculates the length too
+friends.unshift("Julian"); // adds to the beginning
+// console.log(friends);
+
+// Subtract elements methods
+friends.pop(); // removes last element
+const popped = friends.pop(); // pop returns the removed element
+friends.shift(); // removes the first element
+// console.log(friends);
+
+// Other helpful methods
+// console.log(friends.indexOf("Mick")); // returns the location in array
+// console.log(friends.indexOf("Bob")); // returns -1 since it isn't present
+
+friends.push(23);
+// console.log(friends.includes("Mick")); // true
+// console.log(friends.includes("Bob")); // false
+// console.log(friends.includes("23")); // false (includes uses strict equality)
+
+if (friends.includes("Mick")) {
+	// console.log("You have a friend named Mick");
+}
