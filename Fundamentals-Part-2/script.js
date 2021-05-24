@@ -176,4 +176,70 @@
 // 	console.log("Hang Clean Rep " + (rep + 1));
 // }
 
-//? LOOPING ARRAYS, BREAKING & CONTINUING
+// //? LOOPING ARRAYS, BREAKING & CONTINUING
+const jonasArray = ["Jonas", "Schmedtmann", 2021 - 1991, "teacher", ["Michael", "Peter", "Steven"]];
+// const newArray = [];
+
+// for (let i = 0; i < jonasArray.length; i++) {
+// 	console.log(jonasArray[i]);
+// 	//? fill in array type 1
+//     // newArray[i] = typeof jonasArray[i];
+//     //? fill in array type 2
+//     newArray.push(typeof jonasArray[i]);
+// }
+
+// console.log(newArray);
+
+// //? another example
+// const years = [1991, 2007, 1969, 2000];
+// const ages = [];
+
+// for (let i = 0; i < years.length; i++) {
+// 	ages.push(2021 - years[i]);
+// }
+// console.log(ages);
+
+// //? continue - will only continue when if is true
+// for (let i = 0; i < jonasArray.length; i++) {
+//     if (typeof jonasArray[i] !== 'string') continue;
+//     console.log(jonasArray[i]);
+// }
+
+// //? break - will break out once a number is found
+// for (let i = 0; i < jonasArray.length; i++) {
+//     if (typeof jonasArray[i] === 'number') break;
+//     console.log(jonasArray[i]);
+// }
+
+// //? LOOPING BACKWARDS
+// for (let i = jonasArray.length - 1; i >= 0; i--) {
+//     console.log(jonasArray[i]);
+// }
+
+// //? LOOP INSIDE A LOOP
+// for (let round = 1; round < 4; round++) {
+//     console.log(`----- ROUND ${round} -----`);
+//     for (let rep = 1; rep < 11; rep++) {
+//         console.log(`Rep ${rep} 🏋🏽`);
+//     }
+// }
+
+// //? WHILE LOOP - more versatile
+// for (let rep = 1; rep < 11; rep++) {
+// 	console.log(`Rep ${rep} 🏋🏽`);
+// }
+
+// let rep = 1;
+// while (rep <= 10) {
+// 	console.log(`Rep ${rep} 🏋🏽`);
+// 	rep++;
+// }
+
+// //? roll dice while we don't roll a six
+// let dice = Math.trunc(Math.random() * 6) + 1;
+// if (dice === 6) console.log('1st roll was a Six');
+// while (dice !== 6) {
+//     console.log(`You rolled a ${dice}`);
+//     dice = Math.trunc(Math.random() * 6) + 1;
+//     if (dice === 6) console.log('Last roll was a Six');
+// }
