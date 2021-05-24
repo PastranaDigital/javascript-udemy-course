@@ -170,3 +170,10 @@
 // console.log(jonasObject.age);
 // console.log(jonasObject.age);
 // console.log(jonasObject.getSummary());
+
+// //? FOR LOOP
+// for (let rep = 0; rep < 10; rep++) {
+// 	console.log("Hang Clean Rep " + (rep + 1));
+// }
+
+//? LOOPING ARRAYS, BREAKING & CONTINUING
