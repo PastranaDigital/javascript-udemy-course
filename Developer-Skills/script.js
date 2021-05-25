@@ -3,3 +3,4 @@
 
 const x = 23;
 console.log(x);
+console.log("Hello World");
