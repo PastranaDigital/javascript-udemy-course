@@ -20,7 +20,7 @@ const currentP1Box = document.querySelector("#current--1");
 const currentP2Box = document.querySelector("#current--2");
 const newGameButton = document.querySelector(".btn--new");
 const rollDiceButton = document.querySelector(".btn--roll");
-const holdButton = document.querySelector(".btn--hold");
+const saveButton = document.querySelector(".btn--save");
 
 dice.classList.add("hidden");
 totalP1Box.textContent = `${totalScoreP1}`;
@@ -83,12 +83,27 @@ const resetTotalScores = function () {
 	totalP2Box.textContent = `${totalScoreP2}`;
 };
 
+// https://www.sitepoint.com/delay-sleep-pause-wait/
+const sleep = function (ms) {
+	// const date = Date.now();
+	// let currentDate = null;
+	// do {
+	// 	currentDate = Date.now();
+	// } while (currentDate - date < ms);
+	return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
 rollDiceButton.addEventListener("click", function () {
 	if (activePlayer !== 0) {
 		let diceNumber = randomDiceNumber();
 		console.log("button");
 		dice.classList.remove("hidden");
 		imageSrc.src = `dice-${diceNumber}.png`;
+		// dice.classList.add("animation");
+		// dice.classList.add("hidden");
+		// sleep(1000);
+		// dice.classList.remove("hidden");
+		// dice.classList.remove("animation");
 		//? dice value goes to "Current" score location
 		if (diceNumber !== 1) {
 			activePlayer === 1 ? (currentScoreP1 += diceNumber) : (currentScoreP2 += diceNumber);
@@ -104,11 +119,11 @@ rollDiceButton.addEventListener("click", function () {
 	}
 });
 
-//! hold game actions
+//! save game actions
 //? "Current" score is added to Player score
-holdButton.addEventListener("click", function () {
+saveButton.addEventListener("click", function () {
 	// not the best solution but it works for now
-	if (activePlayer !== 0) {
+	if (activePlayer !== 0 && currentScoreP1 !== currentScoreP2) {
 		totalScoreP1 += currentScoreP1;
 		totalScoreP2 += currentScoreP2;
 		totalP1Box.textContent = `${totalScoreP1}`;
