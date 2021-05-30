@@ -22,6 +22,10 @@ body {
   justify-content: center;
 }
 
+h1 {
+  font-size: 90px;
+}
+
 /* LAYOUT */
 main {
   position: relative;
@@ -115,14 +119,24 @@ main {
   transition: all 0.2s;
 
   background-color: white;
-  background-color: rgba(255, 255, 255, 0.6);
+  /* background-color: rgba(255, 255, 255, 0.6); */
+  background-color: rgb(224, 224, 224);
   backdrop-filter: blur(10px);
 
   padding: 0.7rem 2.5rem;
-  border-radius: 50rem;
+  border-radius: 2rem;
   box-shadow: 0 1.75rem 3.5rem rgba(0, 0, 0, 0.1);
+  
+  transition-duration: .25s;
+  transition-timing-function: ease;
 }
 
+.btn:hover {
+  background-color: rgba(216, 216, 216, 0.6);
+  border-radius: 50rem;
+}
+
+/* for the emojis */
 .btn::first-letter {
   font-size: 2.4rem;
   display: inline-block;
@@ -158,10 +172,15 @@ main {
 }
 
 .player--winner {
-  background-color: #2f2f2f;
+  /* background-color: #2f2f2f; */
+  background-color: #5f0f6e;
 }
 
 .player--winner .name {
   font-weight: 700;
   color: #c7365f;
+}
+
+.hidden {
+  display: none;
 }
