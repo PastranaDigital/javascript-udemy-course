@@ -2,14 +2,6 @@
 // CONSTANTS
 const winningScore = 50;
 
-// VARIABLES
-let totalScoreP1 = 0;
-let totalScoreP2 = 0;
-let currentScoreP1 = 0;
-let currentScoreP2 = 0;
-let activePlayer = 1;
-
-const dice = document.querySelector(".dice");
 const player1Section = document.querySelector(".player--1");
 const player2Section = document.querySelector(".player--2");
 const totalP1Box = document.querySelector("#score--1");
@@ -18,70 +10,58 @@ const player1Trophy = document.querySelector(".trophy--1");
 const player2Trophy = document.querySelector(".trophy--2");
 const currentP1Box = document.querySelector("#current--1");
 const currentP2Box = document.querySelector("#current--2");
+
+const dice = document.querySelector(".dice");
 const newGameButton = document.querySelector(".btn--new");
 const rollDiceButton = document.querySelector(".btn--roll");
 const saveButton = document.querySelector(".btn--save");
 
-dice.classList.add("hidden");
-totalP1Box.textContent = `${totalScoreP1}`;
-totalP2Box.textContent = `${totalScoreP2}`;
+// VARIABLES
+let totalScore, currentScore, activePlayer, saveScoreActive;
 
-//? highlighting switch to next player
 const changeActivePlayer = function () {
-	if (player1Section.classList.contains("player--active")) {
-		console.log("inside 1");
-		player1Section.classList.remove("player--active");
-		player2Section.classList.add("player--active");
-		activePlayer = 2;
-	} else {
-		// if (player2Section.classList.contains("player--active")) {
-		console.log("inside 2");
-		player2Section.classList.remove("player--active");
-		player1Section.classList.add("player--active");
-		activePlayer = 1;
-	}
-	// dice.classList.add("hidden");
+	activePlayer = activePlayer === 1 ? 2 : 1;
+	player1Section.classList.toggle("player--active");
+	player2Section.classList.toggle("player--active");
 };
-
-//! roll dice actions
-//? randomly show dice
-const randomDiceNumber = function () {
-	return Math.trunc(Math.random() * 6) + 1;
-};
-//? change dice value with button press
-let imageSrc = document.querySelector("img");
 
 const checkForWinner = function () {
-	if (totalScoreP1 >= winningScore || totalScoreP2 >= winningScore) {
-		if (activePlayer === 1) {
-			player1Section.classList.add("player--winner");
-			player2Section.classList.remove("player--active");
-			player1Trophy.classList.remove("hidden");
-		} else {
-			player2Section.classList.add("player--winner");
-			player1Section.classList.remove("player--active");
-			player2Trophy.classList.remove("hidden");
-		}
+	if (totalScore[activePlayer] >= winningScore) {
+		document.querySelector(`.player--${activePlayer}`).classList.add("player--winner");
+		document.querySelector(`.trophy--${activePlayer}`).classList.remove("hidden");
+		document.querySelector(`.player--${activePlayer}`).classList.remove("player--active");
 		activePlayer = 0; // disable game actions
-		// alert(`Player ${activePlayer} WINS!`);
 	} else {
 		changeActivePlayer();
 	}
 };
 
 const resetCurrentScores = function () {
-	currentScoreP1 = 0;
-	currentScoreP2 = 0;
-	currentP1Box.textContent = `${currentScoreP1}`;
-	currentP2Box.textContent = `${currentScoreP2}`;
+	currentScore = 0;
+	saveScoreActive = false;
+	currentP1Box.textContent = 0;
+	currentP2Box.textContent = 0;
 };
 
-const resetTotalScores = function () {
-	totalScoreP1 = 0;
-	totalScoreP2 = 0;
-	totalP1Box.textContent = `${totalScoreP1}`;
-	totalP2Box.textContent = `${totalScoreP2}`;
+const setupGame = function () {
+	totalScore = [0, 0, 0];
+	activePlayer = 1;
+
+	totalP1Box.textContent = 0;
+	totalP2Box.textContent = 0;
+
+	dice.classList.add("hidden");
+	player1Section.classList.remove("player--winner");
+	player2Section.classList.remove("player--winner");
+	player1Section.classList.add("player--active");
+	player2Section.classList.remove("player--active");
+	resetCurrentScores();
+
+	player1Trophy.classList.add("hidden");
+	player2Trophy.classList.add("hidden");
 };
+
+setupGame();
 
 // https://www.sitepoint.com/delay-sleep-pause-wait/
 const sleep = function (ms) {
@@ -95,63 +75,33 @@ const sleep = function (ms) {
 
 rollDiceButton.addEventListener("click", function () {
 	if (activePlayer !== 0) {
-		let diceNumber = randomDiceNumber();
-		console.log("button");
+		saveScoreActive = true;
+		const diceNumber = Math.trunc(Math.random() * 6) + 1;
 		dice.classList.remove("hidden");
-		imageSrc.src = `dice-${diceNumber}.png`;
+		dice.src = `dice-${diceNumber}.png`;
 		// dice.classList.add("animation");
 		// dice.classList.add("hidden");
 		// sleep(1000);
 		// dice.classList.remove("hidden");
 		// dice.classList.remove("animation");
-		//? dice value goes to "Current" score location
 		if (diceNumber !== 1) {
-			activePlayer === 1 ? (currentScoreP1 += diceNumber) : (currentScoreP2 += diceNumber);
+			currentScore += diceNumber;
+			document.getElementById(`current--${activePlayer}`).textContent = currentScore;
 		} else {
-			//? if dice value is 1 then "Current" score is reset
-			activePlayer === 1 ? (currentScoreP1 = 0) : (currentScoreP2 = 0);
 			changeActivePlayer();
 			resetCurrentScores();
 		}
-		activePlayer === 1
-			? (currentP1Box.textContent = `${currentScoreP1}`)
-			: (currentP2Box.textContent = `${currentScoreP2}`);
 	}
 });
 
-//! save game actions
-//? "Current" score is added to Player score
 saveButton.addEventListener("click", function () {
 	// not the best solution but it works for now
-	if (activePlayer !== 0 && currentScoreP1 !== currentScoreP2) {
-		totalScoreP1 += currentScoreP1;
-		totalScoreP2 += currentScoreP2;
-		totalP1Box.textContent = `${totalScoreP1}`;
-		totalP2Box.textContent = `${totalScoreP2}`;
+	if (activePlayer !== 0 && saveScoreActive) {
+		totalScore[activePlayer] += currentScore;
+		document.getElementById(`score--${activePlayer}`).textContent = totalScore[activePlayer];
 		checkForWinner();
-		// changeActivePlayer();
 		resetCurrentScores();
 	}
 });
 
-//! highlighting game actions
-//? current player is highlighted & tracked by variable
-//? highlighting switch
-//? if dice value is 1 then highlighting switches (check if class contains)
-
-//! new game actions
-//? store the original state values
-newGameButton.addEventListener("click", function () {
-	player2Section.classList.remove("player--active");
-	player1Section.classList.add("player--active");
-	activePlayer = 1;
-	resetTotalScores();
-	dice.classList.add("hidden");
-	player1Trophy.classList.add("hidden");
-	player2Trophy.classList.add("hidden");
-	player1Section.classList.remove("player--winner");
-	player2Section.classList.remove("player--winner");
-	// set player 1 as current player
-});
-//? set all of the changed states back
-//? hide the dice on start
+newGameButton.addEventListener("click", setupGame);
