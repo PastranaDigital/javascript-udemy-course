@@ -79,9 +79,9 @@ rollDiceButton.addEventListener("click", function () {
 		const diceNumber = Math.trunc(Math.random() * 6) + 1;
 		dice.classList.remove("hidden");
 		dice.src = `dice-${diceNumber}.png`;
-		// dice.classList.add("animation");
+		dice.classList.add("animation");
 		// dice.classList.add("hidden");
-		// sleep(1000);
+		sleep(1000);
 		// dice.classList.remove("hidden");
 		// dice.classList.remove("animation");
 		if (diceNumber !== 1) {
