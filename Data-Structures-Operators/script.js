@@ -31,16 +31,23 @@ const restaurant = {
 		},
 	},
 
-  //? destructuring inside the object
-  // orderDelivery: function(obj){
-  //   console.log(obj);
-  // }
-  // orderDelivery: function({time, address, mainIndex, starterIndex}){
-  //? you can also set default values in the function destructuring
-  orderDelivery: function({time = '20:00', address, mainIndex = 0, starterIndex = 1}){
-    // console.log(time, mainIndex);
-    console.log(`Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`);
-  }
+	//? destructuring inside the object
+	// orderDelivery: function(obj){
+	//   console.log(obj);
+	// }
+	// orderDelivery: function({time, address, mainIndex, starterIndex}){
+	//? you can also set default values in the function destructuring
+	orderDelivery: function ({ time = "20:00", address, mainIndex = 0, starterIndex = 1 }) {
+		// console.log(time, mainIndex);
+		console.log(
+			`Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`
+		);
+	},
+
+	//? spread operator
+	orderPasta: function (ing1, ing2, ing3) {
+		console.log(`Here is your delicious pasta with ${ing1}, ${ing2}, ${ing3}.`);
+	},
 };
 
 restaurant.orderDelivery ({
@@ -123,3 +130,45 @@ restaurant.orderDelivery ({
 // console.log(fri);
 // console.log(open, close);
 // console.log(o, c);
+
+//! SPREAD OPERATOR
+//? not the best way
+const arr = [7,8,9];
+const badNewArr = [1, 2, arr[0], arr[1], arr[2]];
+console.log(badNewArr);
+
+//? a better way using the spread operator
+// opens up the array for us and takes all of the values
+const newArr = [1, 2, ...arr];
+console.log(newArr);
+console.log(...newArr);
+
+const newMenu = [...restaurant.mainMenu, 'Gnocci'];
+console.log(newMenu);
+
+//? copy the array
+const mainMenuCopy = [...restaurant.mainMenu];
+
+//? join 2 arrays
+const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
+console.log(menu);
+
+//? Iterables: arrays, strings, maps, sets & NOT objects
+const str = 'Pastrana';
+const letters = [...str, ' ', ', O.' ];
+console.log(letters);
+console.log(...str);
+// console.log(`${...str}, Omar`); //Unexpected token '...'
+
+// //? Real-world example
+// const ingredients = [prompt('Let\'s make pasta! Ingredient 1?'), prompt('Ingredient 2?'), prompt('Ingredient 3?')];
+// console.log(ingredients);
+// restaurant.orderPasta(...ingredients);
+
+//? Seperator for Objects???
+const newResturant = { foundedIn: 1998, ...restaurant, founder: 'Guiseppe'};
+console.log(newResturant);
+
+const resturantCopy = {...restaurant};
+resturantCopy.name = 'Ristorante Roma';
+console.log(restaurant, resturantCopy);
