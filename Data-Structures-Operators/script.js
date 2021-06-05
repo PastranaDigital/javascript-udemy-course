@@ -2,7 +2,7 @@
 
 // Data needed for a later exercise
 const flights =
-  '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
+	"_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30";
 
 // Data needed for first part of the section
 const restaurant = {
@@ -39,28 +39,34 @@ const restaurant = {
 	//? you can also set default values in the function destructuring
 	orderDelivery: function ({ time = "20:00", address, mainIndex = 0, starterIndex = 1 }) {
 		// console.log(time, mainIndex);
-		console.log(
-			`Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`
-		);
+		// console.log(
+		// 	`Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`
+		// );
 	},
 
 	//? spread operator
 	orderPasta: function (ing1, ing2, ing3) {
 		console.log(`Here is your delicious pasta with ${ing1}, ${ing2}, ${ing3}.`);
 	},
+
+	//? rest operator
+	orderPizza: function (mainIngredient, ...otherIngredients) {
+		console.log(mainIngredient);
+		console.log(otherIngredients);
+	},
 };
 
-restaurant.orderDelivery ({
-  time: '22:30',
-  address: 'Via del Sol, 21',
-  mainIndex: 2,
-  starterIndex: 2
+restaurant.orderDelivery({
+	time: "22:30",
+	address: "Via del Sol, 21",
+	mainIndex: 2,
+	starterIndex: 2,
 });
 
 //? using the default values from the function
-restaurant.orderDelivery ({
-  address: '309 Caraway Lane',
-  starterIndex: 1
+restaurant.orderDelivery({
+	address: "309 Caraway Lane",
+	starterIndex: 1,
 });
 
 
@@ -131,44 +137,130 @@ restaurant.orderDelivery ({
 // console.log(open, close);
 // console.log(o, c);
 
-//! SPREAD OPERATOR
-//? not the best way
-const arr = [7,8,9];
-const badNewArr = [1, 2, arr[0], arr[1], arr[2]];
-console.log(badNewArr);
+// //! SPREAD OPERATOR
+// //? not the best way
+// const arr = [7,8,9];
+// const badNewArr = [1, 2, arr[0], arr[1], arr[2]];
+// console.log(badNewArr);
 
-//? a better way using the spread operator
-// opens up the array for us and takes all of the values
-const newArr = [1, 2, ...arr];
-console.log(newArr);
-console.log(...newArr);
+// //? a better way using the spread operator
+// // opens up the array for us and takes all of the values
+// const newArr = [1, 2, ...arr];
+// console.log(newArr);
+// console.log(...newArr);
 
-const newMenu = [...restaurant.mainMenu, 'Gnocci'];
-console.log(newMenu);
+// const newMenu = [...restaurant.mainMenu, 'Gnocci'];
+// console.log(newMenu);
 
-//? copy the array
-const mainMenuCopy = [...restaurant.mainMenu];
+// //? copy the array
+// const mainMenuCopy = [...restaurant.mainMenu];
 
-//? join 2 arrays
-const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
-console.log(menu);
+// //? join 2 arrays
+// const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
+// console.log(menu);
 
-//? Iterables: arrays, strings, maps, sets & NOT objects
-const str = 'Pastrana';
-const letters = [...str, ' ', ', O.' ];
-console.log(letters);
-console.log(...str);
-// console.log(`${...str}, Omar`); //Unexpected token '...'
+// //? Iterables: arrays, strings, maps, sets & NOT objects
+// const str = 'Pastrana';
+// const letters = [...str, ' ', ', O.' ];
+// console.log(letters);
+// console.log(...str);
+// // console.log(`${...str}, Omar`); //Unexpected token '...'
 
-// //? Real-world example
-// const ingredients = [prompt('Let\'s make pasta! Ingredient 1?'), prompt('Ingredient 2?'), prompt('Ingredient 3?')];
-// console.log(ingredients);
-// restaurant.orderPasta(...ingredients);
+// // //? Real-world example
+// // const ingredients = [prompt('Let\'s make pasta! Ingredient 1?'), prompt('Ingredient 2?'), prompt('Ingredient 3?')];
+// // console.log(ingredients);
+// // restaurant.orderPasta(...ingredients);
 
-//? Seperator for Objects???
-const newResturant = { foundedIn: 1998, ...restaurant, founder: 'Guiseppe'};
-console.log(newResturant);
+// //? Seperator for Objects???
+// const newResturant = { foundedIn: 1998, ...restaurant, founder: 'Guiseppe'};
+// console.log(newResturant);
 
-const resturantCopy = {...restaurant};
-resturantCopy.name = 'Ristorante Roma';
-console.log(restaurant, resturantCopy);
+// const resturantCopy = {...restaurant};
+// resturantCopy.name = 'Ristorante Roma';
+// console.log(restaurant, resturantCopy);
+
+// //! REST (opposite of Spread)
+// //! Destructuring
+// //? spread - new array from old array (on the RIGHT side of =)
+// const arr = [1, 2, ...[3, 4]];
+
+// //? REST - destructures and groups a sub array (on the LEFT side of =)
+// const [a, b, ...others] = [1, 2, 3, 4, 5];
+// console.log(a, b, others); //others = unselected remaining elements
+
+// //? does not include skipped elements
+// //? REST must be at the end of the destructuring assignment
+// const [pizza, , risotto, ...otherFood] = [...restaurant.mainMenu, ...restaurant.starterMenu];
+// console.log(pizza, risotto, otherFood);
+
+// //? Objects
+// const {sat, ...weekdays} = {...restaurant.openingHours};
+// console.log(sat, weekdays);
+
+// //! Functions
+// //? SPREAD - we used it to send an array of things into a function as separate arguments
+// //? REST - we use it to send multiple unknown length of arguments in as an array
+// // we want this function to be able to add 2 numbers or 5 numbers...
+// const add = function(...numbers) { // takes multiple numbers and packs into 1 array
+// 	let total = 0;
+// 	for (let i = 0; i < numbers.length; i++) {
+// 		total += numbers[i];
+// 	}
+// 	console.log(total);
+// };
+
+// add(2, 3);
+// add(2, 4, 6, 1, 7);
+// add(2, 5, 1, 4, 3, 7, 8, 9, 2, 3);
+
+// const x = [23, 5, 7];
+// add(...x); // use spread to unpack them to send in to our function
+
+// //? orderPizza function handles 1+ arguments
+// restaurant.orderPizza("Pepperoni", "Cheese", "Ham", "Sausage");
+// restaurant.orderPizza("BBQ Chicken");
+
+// //! Short Circuiting (|| operator)
+// //? returns the first truthy value or if all falsey, then the last one 
+// // Use ANY data type, return ANY data type, short circuit evaluation
+// // 3 is a truthy value... so it doesn't evaluate the 2nd
+// console.log(3 || 'Omar'); // 2 non boolean values
+// console.log('' || 'Omar');
+// console.log(true || 0);
+// // undefined is a falsy value but so is null
+// console.log(undefined || null);
+// // 'Hello' is the first truthy value in the chain
+// console.log(undefined || 0 || '' || 'Hello' || 23 || null);
+
+// // if it didn't exist then set the default value
+// const guests1 = restaurant.numGuests ? restaurant.numGuests : 10;
+// const guests2 = restaurant.numGuests || 10;
+// console.log(restaurant.numGuests); // undefined (falsey value)
+// console.log(guests2);
+
+// //! Short Cicuiting (&& operator)
+// //? returns the first falsey value or if all truthy, then the last one
+// // returns the first falsey value without evaluating the 2nd
+// console.log(0 && 'Omar');
+// console.log(3 && 'Omar');
+// console.log(false && 'Truth');
+// console.log(true && 'Lies');
+// console.log('A' && 'B');
+// console.log(true && 10 && 'Nope' && 'Hello' && 23 && null);
+
+// // if statement is just checking that .orderPizza exists then executes
+// if (restaurant.orderPizza) {
+// 	restaurant.orderPizza('chicken', 'pineapple');
+// }
+
+// // same thing
+// restaurant.orderPizza && restaurant.orderPizza('chicken', 'pineapple');
+
+// //! Nullish Coalescing Operator (??)
+// restaurant.numGuests = 0;
+// const guests = restaurant.numGuests || 10;
+// console.log(guests);
+
+// //? Nullish = null and undefined (NOT 0 or '') those are falsey
+// const guestCorrect = restaurant.numGuests ?? 10;
+// console.log(guestCorrect);
