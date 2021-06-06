@@ -264,3 +264,83 @@ restaurant.orderDelivery({
 // //? Nullish = null and undefined (NOT 0 or '') those are falsey
 // const guestCorrect = restaurant.numGuests ?? 10;
 // console.log(guestCorrect);
+
+//! the FOR-OF Loop
+// can use the continue or break still
+// const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
+// //? basic
+// for (const item of menu) console.log(item);
+
+// //? working with the index
+// for (const item of menu.entries()) {
+// 	console.log(`${item[0] +1}: ${item[1]}`);
+// }
+// console.log([...menu.entries()]);
+
+// //? more advanced version by destructuring the item array
+// for (const [i, el] of menu.entries()) {
+// 	console.log(`${i +1}: ${el}`);
+// }
+
+//! Enhanced Object Literals
+const weekdays = ['mon','tue','wed','thu','fri','sat','sun'];
+
+const openingHoursNew = {
+	[weekdays[3]]: {
+		open: 12,
+		close: 22,
+	},
+	[weekdays[4]]: {
+		open: 11,
+		close: 23,
+	},
+	sat: {
+		open: 0, // Open 24 hours
+		close: 24,
+	},
+	//? you can even compute the proprty names
+	[`day-${2+5}`]: {
+		open: 0, // Open 24 hours
+		close: 24,
+	},
+};
+console.log(openingHoursNew);
+
+const openingHours = {
+	thu: {
+		open: 12,
+		close: 22,
+	},
+	fri: {
+		open: 11,
+		close: 23,
+	},
+	sat: {
+		open: 0, // Open 24 hours
+		close: 24,
+	},
+};
+
+const restaurant2 = {
+	name: "Classico Italiano",
+	location: "Via Angelo Tavanti 23, Firenze, Italy",
+	categories: ["Italian", "Pizzeria", "Vegetarian", "Organic"],
+	starterMenu: ["Focaccia", "Bruschetta", "Garlic Bread", "Caprese Salad"],
+	mainMenu: ["Pizza", "Pasta", "Risotto"],
+
+	//? OLD WAY 
+	order: function (starterIndex, mainIndex) {
+		return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+	},
+
+	//? ES6 Enhanced Object Literals
+	// simply type the same name as the object you want to insert
+	openingHours,
+
+	//? ES6 Enhanced Object Function Declaration
+	order2(starterIndex, mainIndex) {
+		return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+	}, 
+};
+
+console.log(restaurant2);
