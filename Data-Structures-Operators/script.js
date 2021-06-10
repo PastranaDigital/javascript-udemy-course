@@ -282,65 +282,152 @@ restaurant.orderDelivery({
 // 	console.log(`${i +1}: ${el}`);
 // }
 
-//! Enhanced Object Literals
-const weekdays = ['mon','tue','wed','thu','fri','sat','sun'];
+// //! Enhanced Object Literals
+// const weekdays = ['mon','tue','wed','thu','fri','sat','sun'];
 
-const openingHoursNew = {
-	[weekdays[3]]: {
-		open: 12,
-		close: 22,
-	},
-	[weekdays[4]]: {
-		open: 11,
-		close: 23,
-	},
-	sat: {
-		open: 0, // Open 24 hours
-		close: 24,
-	},
-	//? you can even compute the proprty names
-	[`day-${2+5}`]: {
-		open: 0, // Open 24 hours
-		close: 24,
-	},
-};
-console.log(openingHoursNew);
+// const openingHoursNew = {
+// 	[weekdays[3]]: {
+// 		open: 12,
+// 		close: 22,
+// 	},
+// 	[weekdays[4]]: {
+// 		open: 11,
+// 		close: 23,
+// 	},
+// 	sat: {
+// 		open: 0, // Open 24 hours
+// 		close: 24,
+// 	},
+// 	//? you can even compute the proprty names
+// 	[`day-${2+5}`]: {
+// 		open: 0, // Open 24 hours
+// 		close: 24,
+// 	},
+// };
+// console.log(openingHoursNew);
 
-const openingHours = {
-	thu: {
-		open: 12,
-		close: 22,
-	},
-	fri: {
-		open: 11,
-		close: 23,
-	},
-	sat: {
-		open: 0, // Open 24 hours
-		close: 24,
-	},
-};
+// const openingHours = {
+// 	thu: {
+// 		open: 12,
+// 		close: 22,
+// 	},
+// 	fri: {
+// 		open: 11,
+// 		close: 23,
+// 	},
+// 	sat: {
+// 		open: 0, // Open 24 hours
+// 		close: 24,
+// 	},
+// };
 
-const restaurant2 = {
-	name: "Classico Italiano",
-	location: "Via Angelo Tavanti 23, Firenze, Italy",
-	categories: ["Italian", "Pizzeria", "Vegetarian", "Organic"],
-	starterMenu: ["Focaccia", "Bruschetta", "Garlic Bread", "Caprese Salad"],
-	mainMenu: ["Pizza", "Pasta", "Risotto"],
+// const restaurant2 = {
+// 	name: "Classico Italiano",
+// 	location: "Via Angelo Tavanti 23, Firenze, Italy",
+// 	categories: ["Italian", "Pizzeria", "Vegetarian", "Organic"],
+// 	starterMenu: ["Focaccia", "Bruschetta", "Garlic Bread", "Caprese Salad"],
+// 	mainMenu: ["Pizza", "Pasta", "Risotto"],
 
-	//? OLD WAY 
-	order: function (starterIndex, mainIndex) {
-		return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
-	},
+// 	//? OLD WAY 
+// 	order: function (starterIndex, mainIndex) {
+// 		return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+// 	},
 
-	//? ES6 Enhanced Object Literals
-	// simply type the same name as the object you want to insert
-	openingHours,
+// 	//? ES6 Enhanced Object Literals
+// 	// simply type the same name as the object you want to insert
+// 	openingHours,
 
-	//? ES6 Enhanced Object Function Declaration
-	order2(starterIndex, mainIndex) {
-		return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
-	}, 
-};
+// 	//? ES6 Enhanced Object Function Declaration
+// 	order2(starterIndex, mainIndex) {
+// 		return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+// 	}, 
+// };
 
-console.log(restaurant2);
+// console.log(restaurant2);
+
+// //! Optional Chaining (?)
+
+// // console.log(restaurant.openingHours.mon); // we don't know if it is defined or not
+// // console.log(restaurant.openingHours.mon.open); // fails since mon is undefined
+
+// // checks before failing
+// if (restaurant.openingHours.mon) {
+// 	console.log(restaurant.openingHours.mon.open); 
+// }
+
+// //? ES 2020 with Optional Chaining
+// // checks to see if mon exists then returns value or undefined (not error)
+// // console.log(restaurant.openingHours.mon?.open);
+// // console.log(restaurant.openingHours?.mon?.open);
+
+// //? Real world example
+// const days = ['mon','tue','wed','thu','fri','sat','sun'];
+
+// for (const day of days) {
+// 	// const open = restaurant.openingHours[day]?.open || "closed"; // makes Saturday closed but it opens at 0 (falsey value)
+// 	const open = restaurant.openingHours[day]?.open ?? "closed"; // use nullish operator to fix it
+// 	console.log(`On ${day}, we open at ${open}`);
+// }
+
+// //? Methods
+// console.log(restaurant.order?.(0,1) ?? 'Method does not exist');
+// console.log(restaurant.orderRissotto?.(0,1) ?? 'Method does not exist');
+
+// //? Arrays
+// // const users = [{ name: 'Omar', email:'omar@omar.com' }];
+// const users = [];
+
+// console.log(users[0]?.name ?? "User array is empty");
+
+// // OLD way
+// if (users.length > 0) {
+// 	console.log(users[0].name);
+// } else {
+// 	console.log("User array is empty");
+// }
+
+// //! Looping over Objects
+
+// const openingHours = {
+// 	thu: {
+// 		open: 12,
+// 		close: 22,
+// 	},
+// 	fri: {
+// 		open: 11,
+// 		close: 23,
+// 	},
+// 	sat: {
+// 		open: 0, // Open 24 hours
+// 		close: 24,
+// 	},
+// };
+
+// //? Property Names
+// const properties = Object.keys(openingHours);
+// console.log(properties);
+
+// let openStr = `We are open on ${properties.length} days: `;
+
+// for (const day of Object.keys(openingHours)) {
+// 	openStr += `${day}, `;
+// }
+// console.log(openStr);
+
+// //? Property Values
+// const values = Object.values(openingHours);
+// console.log(values);
+
+// //? Entire Object
+// const entries = Object.entries(openingHours);
+// // console.log(entries);
+
+// // before destructuring
+// for (const x of entries) {
+// 	console.log(x); // shoots out an array that has objects inside
+// }
+
+// // with destructuring
+// for (const [key, {open, close}] of entries) {
+// 	console.log(`on ${key} we open at ${open} and close at ${close}`);
+// }
