@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 // Data needed for a later exercise
 const flights =
@@ -69,7 +69,6 @@ restaurant.orderDelivery({
 	starterIndex: 1,
 });
 
-
 // const arr = [2, 3, 4];
 // const a = arr[0];
 // const b = arr[1];
@@ -104,7 +103,6 @@ restaurant.orderDelivery({
 // // set a default value for the variables in case the array didn't have it defined
 // // helpful when you are pulling information from an API
 // console.log(p, q, r);
-
 
 // //! Destructuring an Object
 // // no need to worry about order just spelling
@@ -221,7 +219,7 @@ restaurant.orderDelivery({
 // restaurant.orderPizza("BBQ Chicken");
 
 // //! Short Circuiting (|| operator)
-// //? returns the first truthy value or if all falsey, then the last one 
+// //? returns the first truthy value or if all falsey, then the last one
 // // Use ANY data type, return ANY data type, short circuit evaluation
 // // 3 is a truthy value... so it doesn't evaluate the 2nd
 // console.log(3 || 'Omar'); // 2 non boolean values
@@ -328,7 +326,7 @@ restaurant.orderDelivery({
 // 	starterMenu: ["Focaccia", "Bruschetta", "Garlic Bread", "Caprese Salad"],
 // 	mainMenu: ["Pizza", "Pasta", "Risotto"],
 
-// 	//? OLD WAY 
+// 	//? OLD WAY
 // 	order: function (starterIndex, mainIndex) {
 // 		return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
 // 	},
@@ -340,7 +338,7 @@ restaurant.orderDelivery({
 // 	//? ES6 Enhanced Object Function Declaration
 // 	order2(starterIndex, mainIndex) {
 // 		return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
-// 	}, 
+// 	},
 // };
 
 // console.log(restaurant2);
@@ -352,7 +350,7 @@ restaurant.orderDelivery({
 
 // // checks before failing
 // if (restaurant.openingHours.mon) {
-// 	console.log(restaurant.openingHours.mon.open); 
+// 	console.log(restaurant.openingHours.mon.open);
 // }
 
 // //? ES 2020 with Optional Chaining
@@ -388,20 +386,20 @@ restaurant.orderDelivery({
 
 // //! Looping over Objects
 
-// const openingHours = {
-// 	thu: {
-// 		open: 12,
-// 		close: 22,
-// 	},
-// 	fri: {
-// 		open: 11,
-// 		close: 23,
-// 	},
-// 	sat: {
-// 		open: 0, // Open 24 hours
-// 		close: 24,
-// 	},
-// };
+const openingHours = {
+	thu: {
+		open: 12,
+		close: 22,
+	},
+	fri: {
+		open: 11,
+		close: 23,
+	},
+	sat: {
+		open: 0, // Open 24 hours
+		close: 24,
+	},
+};
 
 // //? Property Names
 // const properties = Object.keys(openingHours);
@@ -431,3 +429,158 @@ restaurant.orderDelivery({
 // for (const [key, {open, close}] of entries) {
 // 	console.log(`on ${key} we open at ${open} and close at ${close}`);
 // }
+
+// //! Sets
+// //? A collection of unique values
+
+// const ordersSet = new Set(['Pasta', 'Pizza', 'Pizza', 'Risotto', 'Pasta', 'Pizza']);
+// console.log(ordersSet); // it only kept the unique values
+// console.log(ordersSet.size);
+// console.log(ordersSet.has("Pizza"));
+// console.log(ordersSet.has("Bread"));
+// ordersSet.add('Garlic Bread');
+// ordersSet.add('Garlic Bread'); // this one won't be added
+// ordersSet.delete('Pizza');
+// // orderSet.clear(); // empties the set
+// console.log(ordersSet);
+// //? there are no indexes... there is no need to actually retrieve a value
+// //? it is either in the set or not... use the has method or an array
+
+// const stringSet = new Set("Omar");
+// console.log(stringSet);
+
+// for (const letter of stringSet) {
+// 	console.log(letter);
+// }
+
+// //? Example of Use Case: used to remove duplicates in an array
+// const staff = ['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter'];
+// // //? Make a set from the array of only unique values
+// // const staffUnique = new Set(staff);
+// // console.log(staffUnique);
+// //? To make it an Array after making it unique, then we use the spread operator because they are iterable
+// const staffUnique = [...new Set(staff)]; // now it is an Array
+// console.log(staffUnique);
+// //? if you just wanted to get the number of unique values
+// console.log(new Set(['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter']).size);
+// console.log(new Set(staff).size);
+// console.log(new Set('omarpastrana').size);
+
+// //? best to use Arrays for everything unless you need just unique values
+
+// //! Maps Fundamentals
+// //? key value pairs with keys being of any type
+
+// const restMap = new Map();
+// restMap.set("name", "Classico Italiano");
+// restMap.set(1, "Firenze, Italy");
+// restMap.set(2, "Lisbon, Portugal");
+// console.log(restMap);
+
+// restMap
+// 	.set("categories", ["Italian", "Pizzeria", "Vegetarian", "Organic"])
+// 	.set("open", 11)
+// 	.set("close", 23)
+// 	.set(true, "We are open!")
+// 	.set(false, "We are closed");
+
+// console.log(restMap);
+// //? pull the "value" by getting the "key"
+// console.log(restMap.get("name"));
+// console.log(restMap.get(true));
+// console.log(restMap.get(1)); // has to be the same type as the key "1" won't work
+
+// //? check the value because we have a true & false "key"
+// const time = 21;
+// console.log(restMap.get(time > restMap.get("open") && time < restMap.get("close"))); // should return true... therefore "We are open!"
+
+// console.log(restMap.has("categories"));
+// restMap.delete(2);
+// console.log(restMap.size);
+// restMap.clear();
+// console.log(restMap);
+
+// // //? Objects as map key
+// // restMap.set([1, 2], "Test"); // assign an Array as the key
+// // console.log(restMap);
+// // console.log(restMap.get([1, 2])); // similar array but not the same array
+
+// //? Objects as map key (Correctly)
+// const arr = [1, 2];
+// restMap.set(arr, "Test"); // assign an Array as the key
+// console.log(restMap);
+// console.log(restMap.get(arr)); // similar array but not the same array
+// restMap.set(document.querySelector("h1"), "Heading");
+
+// //! Maps Iteration
+// //? better way than "set" to create a map
+// const question = new Map([
+// 	["question", "What is the best programming language?"],
+// 	[1, "C"],
+// 	[2, "Java"],
+// 	[3, "JavaScript"],
+// 	["correct", 3],
+// 	[true, "Correct!"],
+// 	[false, "Try Again"],
+// ]);
+// console.log(question);
+
+// console.log(Object.entries(openingHours)); // looks the same as the Map
+// //? Convert Object to Map
+// const hoursMap = new Map(Object.entries(openingHours));
+// console.log(hoursMap);
+
+// //? loop through Map (since a map is already iterable, no need for Object.entries)
+// console.log(question.get("question"));
+// for (const [key, value] of question) {
+// 	if (typeof key === "number") {
+// 		console.log(`Answer ${key}: ${value}`);
+// 	}
+// }
+// // const answer = Number(prompt("Your Answer"));
+// const answer = 3;
+// console.log(answer);
+// console.log(question.get(answer === question.get("correct")));
+
+// //? convert Map to Array
+// console.log([...question]);
+// // console.log([...question.entries()]); // same as above
+// console.log([...question.keys()]);
+// console.log([...question.values()]);
+
+//! --------------------------------------------------------------
+//! Which Data Structure to Use?
+//! --------------------------------------------------------------
+//? Sources of Data
+// From the program itself (Data written directly in source code)
+// From the UI (Data input from the user or data written in DOM)
+// From external sources (Data fetched from web API... JSON)
+// [API: Application Programming Interface]
+
+//? Simple list? = Array or Set
+//? Key/Value Pair? = Objects or Maps
+// Keys allows us to describe values
+
+//? WHY Arrays
+// when you need "ordered" list of values
+// when duplicates can exist
+// when you need to "manipulate" data
+
+//? WHY Sets
+// when you need to work with "unique" values
+// when "high-performance" is really important
+// when you need to remove "duplicates" from arrays
+
+//? WHY Objects
+// more "traditional" key/value store
+// easier to write and access values with . and []
+// when you need to include "functions" as values (methods)
+// use when working with JSON (can convert to Map later, not usual)
+
+//? WHY Maps
+// better performance
+// keys can be of "any" data type
+// easy to iterate
+// easy to compute size
+// use when you simply need to map key to values
+// use when you need keys that are not strings (true/false)
