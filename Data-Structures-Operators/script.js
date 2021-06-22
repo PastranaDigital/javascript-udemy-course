@@ -584,3 +584,48 @@ const openingHours = {
 // easy to compute size
 // use when you simply need to map key to values
 // use when you need keys that are not strings (true/false)
+
+//! Working with Strings Part 1
+// const airline = 'TAP Air Portugal';
+// const plane = 'A320';
+
+// for (let i = 0; i < plane.length; i++) {
+// 	console.log(plane[i]);
+// }
+// console.log('');
+// console.log('B737'[0]);
+// console.log('B737'.length);
+
+// console.log('');
+// console.log(airline.length);
+// // Gives the first occurence
+// console.log(airline.indexOf('r'));
+// // Gives the last occurence
+// console.log(airline.lastIndexOf('r'));
+// // Search for a word (case sensitive)
+// console.log(airline.indexOf('Portugal'));
+// console.log(airline.indexOf('portugal')); // -1 because doesn't exist
+// // index of the beginning (, end) & length of the final substring is end - beginning
+// console.log(airline.slice(4));
+// console.log(airline.slice(4, 7)); // substring length is 7-4=3
+
+// console.log('');
+// console.log(airline.slice(0, airline.indexOf(' ')));
+// console.log(airline.slice(airline.lastIndexOf(' ') + 1));
+// console.log(airline.slice(-7));
+// console.log(airline.slice(4, -2));
+
+//? Example in a function
+const checkMiddleSeat = function (seat) {
+	// B & E are middle seats
+	const s = seat.slice(-1); // gets the last value only
+	if (s === 'B' || s === 'E') {
+		console.log('You got a middle seat');
+	} else {
+		console.log('You got lucky');
+	}
+}
+
+checkMiddleSeat('11B');
+checkMiddleSeat('23C');
+checkMiddleSeat('3E');
