@@ -686,53 +686,53 @@ const openingHours = {
 // checkBaggage("I have a laptop, some Food and a pocket KNIFE");
 // checkBaggage("Socks and camera");
 
-//! Working with Strings Part 3
-//? split & join
-console.log("a+very+nice+string".split("+")); // converts to an array
-console.log("Omar Pastrana".split(" "));
-//? using destructuring
-const [firstName, lastName] = "Omar Pastrana".split(" ");
+// //! Working with Strings Part 3
+// //? split & join
+// console.log("a+very+nice+string".split("+")); // converts to an array
+// console.log("Omar Pastrana".split(" "));
+// //? using destructuring
+// const [firstName, lastName] = "Omar Pastrana".split(" ");
 
-const newName = ["Mr.", firstName, lastName.toUpperCase()].join(" ");
-console.log(newName);
+// const newName = ["Mr.", firstName, lastName.toUpperCase()].join(" ");
+// console.log(newName);
 
-const capitalizeName = function (name) {
-	const nameParts = name.split(" ");
-	console.log(nameParts);
-	let finalResult = [];
-	nameParts.forEach((element) => {
-		//? option 1
-		// let tempName = element[0].toUpperCase() + element.slice(1);
-		// finalResult.push(tempName);
-		//? other way to do it
-		finalResult.push(element.replace(element[0], element[0].toUpperCase()));
-	});
-	console.log(finalResult.join(" "));
-};
+// const capitalizeName = function (name) {
+// 	const nameParts = name.split(" ");
+// 	console.log(nameParts);
+// 	let finalResult = [];
+// 	nameParts.forEach((element) => {
+// 		//? option 1
+// 		// let tempName = element[0].toUpperCase() + element.slice(1);
+// 		// finalResult.push(tempName);
+// 		//? other way to do it
+// 		finalResult.push(element.replace(element[0], element[0].toUpperCase()));
+// 	});
+// 	console.log(finalResult.join(" "));
+// };
 
-capitalizeName("jessica ann smith davis");
+// capitalizeName("jessica ann smith davis");
 
-//? padding a string (to get it to a specific length)
-const message = "Go to gate 23!";
-console.log(message.padStart(25, "+"));
-console.log(message.padEnd(25, "+"));
+// //? padding a string (to get it to a specific length)
+// const message = "Go to gate 23!";
+// console.log(message.padStart(25, "+"));
+// console.log(message.padEnd(25, "+"));
 
-//? real world example
-const maskCreditCard = function (number) {
-	// const str = String(number);
-	// or
-	const str = number + "";
-	const last = str.slice(-4);
-	return last.padStart(str.length, "*");
-};
-console.log(maskCreditCard(1234567890123456));
+// //? real world example
+// const maskCreditCard = function (number) {
+// 	// const str = String(number);
+// 	// or
+// 	const str = number + "";
+// 	const last = str.slice(-4);
+// 	return last.padStart(str.length, "*");
+// };
+// console.log(maskCreditCard(1234567890123456));
 
-//? Repeat
-const message2 = "Bad weather... All Departures Delayed...  ";
-console.log(message2.repeat(5));
+// //? Repeat
+// const message2 = "Bad weather... All Departures Delayed...  ";
+// console.log(message2.repeat(5));
 
-const planesInLine = function (n) {
-	console.log(`There are ${n} planes in line ${"🛩".repeat(n)}`);
-};
+// const planesInLine = function (n) {
+// 	console.log(`There are ${n} planes in line ${"🛩".repeat(n)}`);
+// };
 
-planesInLine(5);
+// planesInLine(5);
