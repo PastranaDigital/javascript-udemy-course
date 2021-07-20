@@ -615,17 +615,124 @@ const openingHours = {
 // console.log(airline.slice(-7));
 // console.log(airline.slice(4, -2));
 
-//? Example in a function
-const checkMiddleSeat = function (seat) {
-	// B & E are middle seats
-	const s = seat.slice(-1); // gets the last value only
-	if (s === 'B' || s === 'E') {
-		console.log('You got a middle seat');
-	} else {
-		console.log('You got lucky');
-	}
-}
+// //? Example in a function
+// const checkMiddleSeat = function (seat) {
+// 	// B & E are middle seats
+// 	const s = seat.slice(-1); // gets the last value only
+// 	if (s === 'B' || s === 'E') {
+// 		console.log('You got a middle seat');
+// 	} else {
+// 		console.log('You got lucky');
+// 	}
+// }
 
-checkMiddleSeat('11B');
-checkMiddleSeat('23C');
-checkMiddleSeat('3E');
+// checkMiddleSeat('11B');
+// checkMiddleSeat('23C');
+// checkMiddleSeat('3E');
+
+// //! Working with Strings Part 2
+// const airline = "TAP Air Portugal";
+
+// console.log(airline.toLowerCase());
+// console.log(airline.toUpperCase());
+
+// //? Fix Capitalization in Name
+// const passenger = "kaTHerIne";
+// const passengerLower = passenger.toLowerCase();
+// const passengerCorrect = passengerLower[0].toUpperCase() + passengerLower.slice(1);
+// console.log(passengerCorrect);
+
+// //? Comparing Emails
+// const email = "hello@jonas.io";
+// const loginEmail = "   Hello@Jonas.Io \n";
+// const lowerEmail = loginEmail.toLowerCase();
+// const trimmedEmail = lowerEmail.trim(); // clears leading and trailing white space
+// console.log(trimmedEmail);
+// console.log(trimmedEmail === email);
+
+// const allInOneStepEmail = loginEmail.toLowerCase().trim();
+// console.log(allInOneStepEmail);
+
+// //? Replacing parts
+// const priceGB = "288,97£";
+// const priceUS = priceGB.replace("£", "$").replace(",", ".");
+// console.log(priceUS);
+
+// const announcement = "All passengers come to boarding door 23. Boarding door 23!";
+// console.log(announcement.replace("door", "gate")); // only did 1
+// console.log(announcement.replace(/door/g, "gate")); // with regex
+// console.log(announcement.replaceAll("door", "gate"));
+
+// //? Booleans
+// const plane = "Airbus A320neo";
+// console.log(plane.includes("A320"));
+// console.log(plane.includes("Boeing"));
+// console.log(plane.startsWith("Air"));
+
+// if (plane.startsWith("Airbus") && plane.endsWith("neo")) {
+// 	console.log("part of the New Airbus Family");
+// }
+
+// //? Practice exercise
+// const checkBaggage = function (items) {
+// 	const baggage = items.toLowerCase(); // must compare at lowercase
+// 	if (baggage.includes("knife") || baggage.includes("gun")) {
+// 		console.log("You are not allowed to board");
+// 	} else {
+// 		console.log("Welcome aboard");
+// 	}
+// };
+
+// checkBaggage("I have a laptop, some Food and a pocket KNIFE");
+// checkBaggage("Socks and camera");
+
+//! Working with Strings Part 3
+//? split & join
+console.log("a+very+nice+string".split("+")); // converts to an array
+console.log("Omar Pastrana".split(" "));
+//? using destructuring
+const [firstName, lastName] = "Omar Pastrana".split(" ");
+
+const newName = ["Mr.", firstName, lastName.toUpperCase()].join(" ");
+console.log(newName);
+
+const capitalizeName = function (name) {
+	const nameParts = name.split(" ");
+	console.log(nameParts);
+	let finalResult = [];
+	nameParts.forEach((element) => {
+		//? option 1
+		// let tempName = element[0].toUpperCase() + element.slice(1);
+		// finalResult.push(tempName);
+		//? other way to do it
+		finalResult.push(element.replace(element[0], element[0].toUpperCase()));
+	});
+	console.log(finalResult.join(" "));
+};
+
+capitalizeName("jessica ann smith davis");
+
+//? padding a string (to get it to a specific length)
+const message = "Go to gate 23!";
+console.log(message.padStart(25, "+"));
+console.log(message.padEnd(25, "+"));
+
+//? real world example
+const maskCreditCard = function (number) {
+	// const str = String(number);
+	// or
+	const str = number + "";
+	const last = str.slice(-4);
+	return last.padStart(str.length, "*");
+};
+console.log(maskCreditCard(1234567890123456));
+
+//? Repeat
+const message2 = "Bad weather... All Departures Delayed...  ";
+console.log(message2.repeat(5));
+
+const planesInLine = function (n) {
+	console.log(`There are ${n} planes in line ${"🛩".repeat(n)}`);
+};
+
+planesInLine(5);
