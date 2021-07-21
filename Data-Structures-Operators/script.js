@@ -1,8 +1,8 @@
 "use strict";
 
-// Data needed for a later exercise
-const flights =
-	"_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30";
+// // Data needed for a later exercise
+// const flights =
+// 	"_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30";
 
 // Data needed for first part of the section
 const restaurant = {
@@ -736,3 +736,44 @@ const openingHours = {
 // };
 
 // planesInLine(5);
+
+
+//! String Methods Practice
+const flights =
+	"_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30";
+
+// 🔴 Delayed Departure from FAO to TXL (11h25)
+//              Arrival from BRU to FAO (11h45)
+//   🔴 Delayed Arrival from HEL to FAO (12h05)
+//            Departure from FAO to LIS (12h30)
+
+//? My solution
+const decypher = function(fullString) {
+	let tempArray = [];
+	tempArray = fullString.split('+');
+	tempArray.forEach(string => {
+		let p = [];
+		string = string.replaceAll('_', ' ').trim();
+		if (string.includes('Delayed')) {
+			string = '🔴 ' + string;
+		}
+		// console.log(string);
+		p = string.split(';');
+		let finalString = `${p[0]} from ${p[1].slice(0,3).toUpperCase()} to ${p[2].slice(0,3).toUpperCase()} (${p[3].split(':')[0]}h${p[3].split(':')[1]})`;
+		console.log(finalString.padStart(50, ' '));
+	});
+}
+
+//? Jonas' solution
+const getCode = str => str.slice(0,3).toUpperCase(); // get airport code
+
+const decypher2 = function(fullString) {
+	for (const flight of fullString.split('+')) {
+		const [type, from, to, time] = flight.split(';');
+		let finalString = `${type.startsWith('_Delayed') ? '🔴' : ''}${type.replaceAll('_', ' ')} from ${getCode(from)} to ${getCode(to)} (${time.replace(':','h')})`.padStart(44);
+		console.log(finalString);
+	}
+}
+
+// decypher(flights);
+decypher2(flights);
