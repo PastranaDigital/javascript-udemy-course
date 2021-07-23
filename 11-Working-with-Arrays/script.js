@@ -61,6 +61,58 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+
+//! Creating DOM elements
+//? instead of using global variables, pass the data the function needs into the function
+const displayMovements = function(movements) {
+  
+  //? using textContent will just get the stuff between tags
+  // containerMovements.textContent = 'textContent';
+  
+  //? wipes out the existing content in the movements container
+  containerMovements.innerHTML = '';
+  
+  // iterating through the information like in a LWC template for:each
+  movements.forEach(function(mov, i) {
+    
+    const type = mov > 0 ? 'deposit' : 'withdrawal';
+
+    const html = `
+        <div class="movements__row">
+          <div class="movements__type movements__type--${type}">
+            ${i + 1} ${type}
+          </div>
+          <div class="movements__date">24/01/2037</div>
+          <div class="movements__value">${mov}</div>
+        </div>
+    `;
+    // MDN has great visual of how this works
+    containerMovements.insertAdjacentHTML('afterbegin', html);
+    //? we chose 'afterbegin' to reverse the order that it is displayed
+
+  });
+}
+displayMovements(account1.movements)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -144,3 +196,28 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 // movements.forEach(function (movement, index, array) {
 //   movement > 0 ? console.log(`[${index+1}] You deposited ${movement}`) : console.log(`[${index+1}] You withdrew ${Math.abs(movement)}`);
 // });
+
+// //! forEach for Maps and Sets
+// //? Maps
+// // const currencies = new Map([
+// //   ['USD', 'United States dollar'],
+// //   ['EUR', 'Euro'],
+// //   ['GBP', 'Pound sterling'],
+// // ]);
+
+// currencies.forEach(function (value, key, map) {
+//   console.log(`${key}: ${value}`);
+// });
+
+// //? Sets
+// const currenciesUnique = new Set(['USD', 'GBP', "USD", 'EUR', 'EUR']);
+// console.log(currenciesUnique);
+// // key & value are the same since the set is a unique list
+// currenciesUnique.forEach(function (value, key, set) {
+//   console.log(`${key}: ${value}`);
+// });
+// // you could use a "_" which is a JS throw away variable
+// currenciesUnique.forEach(function (value, _, set) {
+//   console.log(`${value}: ${value}`);
+// });
+
