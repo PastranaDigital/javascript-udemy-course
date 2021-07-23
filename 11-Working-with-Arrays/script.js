@@ -6,31 +6,31 @@
 
 // Data
 const account1 = {
-  owner: 'Jonas Schmedtmann',
+  owner: 'Emily Pastrana',
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2, // %
   pin: 1111,
 };
 
 const account2 = {
-  owner: 'Jessica Davis',
+  owner: 'Omar Andre Pastrana',
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
 };
 
 const account3 = {
-  owner: 'Steven Thomas Williams',
+  owner: 'Eva Mae Pastrana',
   movements: [200, -200, 340, -300, -20, 50, 400, -460],
   interestRate: 0.7,
-  pin: 3333,
+  pin: 8888,
 };
 
 const account4 = {
-  owner: 'Sarah Smith',
+  owner: 'Gabriel Andre Pastrana',
   movements: [430, 1000, 700, 50, 90],
   interestRate: 1,
-  pin: 4444,
+  pin: 5555,
 };
 
 const accounts = [account1, account2, account3, account4];
@@ -95,17 +95,25 @@ const displayMovements = function(movements) {
 displayMovements(account1.movements)
 
 
+//! Computing User names (using Map)
+const createUsernames = function (accountsArray) {
+  //? used forEach because we do not need a new array, only modify existing
+  accountsArray.forEach((account) => 
+  account.username = account.owner
+    .toLowerCase()
+    .split(' ')
+    .map((name) => name[0])
+    .join(''));
+};
+createUsernames(accounts);
+console.log(accounts);
+// console.log(createUsernames('Steven Thomas Williams'));
 
-
-
-
-
-
-
-
-
-
-
+const calcDisplayBalance = function(movements) {
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.innerHTML = `${balance} EUR`;
+};
+calcDisplayBalance(account1.movements);
 
 
 
@@ -221,3 +229,49 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 //   console.log(`${value}: ${value}`);
 // });
 
+//! Data filters (map, filer & reduce)
+//? Map = like the forEach but it makes a new array from it by doing an action to each element
+//? Filter = only elements for which the condition is true will be included in the new array
+//? Reduce = "reduces" all array elements down to one single value (ex: adding all elements together)
+
+// //! the Map method
+// //? uses a funciton to accomplish this
+// const euroToUsd = 1.1;
+// // const movementsUSD = movements.map(function(mov) {
+// //   return mov * euroToUsd;
+// // });
+// //? Arrow function version                //? the return section
+// const movementsUSD = movements.map(mov => mov * euroToUsd);
+// console.log(movements, movementsUSD);
+
+// //? other way of doing this using forEach
+// const movementsUSDforEach = [];
+// movements.forEach(function(element, index, array) {
+//     movementsUSDforEach.push(element * euroToUsd);
+// });
+// console.log(movementsUSDforEach);
+// //? another example
+// const movementsDescription = movements.map((mov, i) => `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(mov)}`);
+
+// console.log(movementsDescription);
+
+// //! The Filter Method
+// const deposits = movements.filter((mov) => mov > 0);
+// const withdrawals = movements.filter((mov) => mov < 0);
+// console.log(movements, deposits, withdrawals);
+
+// //! The Reduce Method
+// // acc is like a snowball
+// // no need for extra variables
+// const balance = movements.reduce(function(acc, element, i, arr) {
+//   return acc + element;
+// }, 0);
+// // ^ second value is where to start the accumulator
+
+// const balanceArrow = movements.reduce((acc, element) => acc + element, 0);
+// console.log(balanceArrow);
+
+// //? another example - maximum value
+// // best to use the first value in the array instead of 0 for this function
+// const maxValue = movements.reduce((acc, element) => element > acc ? element : acc, movements[0]);
+// console.log(maxValue);
