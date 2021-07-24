@@ -8,14 +8,11 @@ const calcAverageHumanAge = function (ages) {
     //         return 16 + dogAge * 4;
     //     }
     // });
-    const arrayHuman = ages.map((dogAge) => dogAge <= 2 ? dogAge * 2 : 16 + dogAge * 4);
-    console.log(arrayHuman);
-
-    const adults = arrayHuman.filter((element) => element >= 18);
+    const adults = ages
+        .map((dogAge) => dogAge <= 2 ? dogAge * 2 : 16 + dogAge * 4)
+        .filter((element) => element >= 18)
+        .reduce((acc, element, i, array) => acc + element / array.length , 0);
     console.log(adults);
-
-    console.log(adults.reduce((acc, element, i, array) => acc + element / array.length , 0));
-    
 }
 
 calcAverageHumanAge( [5, 2, 4, 1, 15, 8, 3] );

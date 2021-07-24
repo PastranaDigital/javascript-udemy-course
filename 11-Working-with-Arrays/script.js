@@ -64,7 +64,7 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 //! Creating DOM elements
 //? instead of using global variables, pass the data the function needs into the function
-const displayMovements = function(movements) {
+const DisplayMovements = function(movements) {
   
   //? using textContent will just get the stuff between tags
   // containerMovements.textContent = 'textContent';
@@ -92,7 +92,7 @@ const displayMovements = function(movements) {
 
   });
 }
-displayMovements(account1.movements)
+// DisplayMovements(account1.movements)
 
 
 //! Computing User names (using Map)
@@ -106,18 +106,70 @@ const createUsernames = function (accountsArray) {
     .join(''));
 };
 createUsernames(accounts);
-console.log(accounts);
+// console.log(accounts);
 // console.log(createUsernames('Steven Thomas Williams'));
 
 const calcDisplayBalance = function(movements) {
   const balance = movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.innerHTML = `${balance} EUR`;
+  labelBalance.innerHTML = `${balance}€`;
 };
-calcDisplayBalance(account1.movements);
+// calcDisplayBalance(account1.movements);
 
 
+//! Chaining Methods
+const calcDisplaySummaries = function (account) {
+  const inMovements = account.movements
+    .filter((mov) => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${inMovements}€`;
+  const outMovements = account.movements
+    .filter((mov) => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(outMovements)}€`;
+  const interest = account.movements
+    .filter((mov) => mov > 0)
+    .map(deposit => deposit * account.interestRate/100)
+    .filter((int, i, arr) => {
+      // console.log(arr);
+      return int >= 1;
+    })
+    .reduce((acc, int) => acc + int, 0);
+  labelSumInterest.textContent = `${interest}€`;
+};
+// calcDisplaySummaries(account1.movements);
 
 
+//! Implementing Login
+let currentAccount;
+btnLogin.addEventListener('click', function (event) {
+  // Prevent form from submitting
+  event.preventDefault();
+  console.log('login');
+  currentAccount = accounts.find(acc => acc.username === inputLoginUsername.value);
+  console.log(currentAccount);
+  //? ? = optional chaining
+  if(currentAccount?.pin === Number(inputLoginPin.value)) {
+    // Display UI and welcome
+    labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(' ')[0]}`;
+    containerApp.style.opacity = 100;
+
+    // clear input fields
+    inputLoginUsername.value = inputLoginPin.value = '';
+    // move cursor/focus
+    inputLoginUsername.blur();
+    inputLoginPin.blur();
+
+    // Display movements
+    DisplayMovements(currentAccount.movements);
+    // Display balance
+    calcDisplayBalance(currentAccount.movements);
+    // Display summary
+    calcDisplaySummaries(currentAccount);
+    console.log('LOGGED IN');
+  } else {
+    console.log('ERROR');
+  }
+})
 
 
 
@@ -275,3 +327,32 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 // // best to use the first value in the array instead of 0 for this function
 // const maxValue = movements.reduce((acc, element) => element > acc ? element : acc, movements[0]);
 // console.log(maxValue);
+
+// //! The magic of chaining methods
+// const euroToUsd = 1.1;
+// //? this works because filter and map return new arrays
+// //? it is like a PIPELINE
+// // const totalDepositUSD = movements
+// //   .filter(mov => mov > 0)
+// //   .map(mov => mov * euroToUsd)
+// //   .reduce((acc, mov) => acc + mov, 0);
+// //? re-written to use array parameter to debug as it builds
+// const totalDepositUSD = movements
+//   .filter(mov => mov > 0)
+//   .map((mov, i, array) => {
+//     // console.log(array);
+//     return mov * euroToUsd;
+//   })
+//   .reduce((acc, mov) => acc + mov, 0);
+// console.log(totalDepositUSD);
+
+// //! find method
+// //? does not make a new array but instead returns the first element that meets the condition
+// const firstWithdrawal = movements.find((mov) => mov < 0);
+// console.log(movements);
+// console.log(firstWithdrawal);
+
+// console.log(accounts);
+
+// const account = accounts.find(acc => acc.owner === 'Emily Pastrana');
+// console.log(account);
