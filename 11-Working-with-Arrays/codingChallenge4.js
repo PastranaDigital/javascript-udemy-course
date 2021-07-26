@@ -18,6 +18,12 @@ dogs.forEach((dog) => {
 });
 console.log(dogs);
 
+//! Task #2 solution
+// When the "includes" returns true it will send back the object
+const dogSarah = dogs.find(dog => dog.owners.includes('Sarah'));
+console.log(dogSarah);
+console.log(`Sarah's dog is eating too ${dogSarah.curFood > dogSarah.recommendedFood ? 'much' : 'little'}`);
+
 // const owners = dogs.flatMap((dog) => dog.owners);
 // console.log(owners);
 
@@ -34,6 +40,16 @@ const { ownersEatTooMuch, ownersEatTooLittle } = dogs.reduce(
 console.log(`ownersEatTooMuch: ${ownersEatTooMuch}`);
 console.log(`ownersEatTooLittle: ${ownersEatTooLittle}`);
 
+//! Task #3 solution
+const ownersEatTooMuch2 = dogs
+    .filter(dog => dog.curFood > dog.recommendedFood)
+    .flatMap(dog => dog.owners);
+console.log(ownersEatTooMuch2);
+const ownersEatTooLittle2 = dogs
+    .filter(dog => dog.curFood < dog.recommendedFood)
+    .flatMap(dog => dog.owners);
+console.log(ownersEatTooLittle2);
+
 // const arrA = ["a", "b", "c"];
 // const strA = "d";
 // const finalArr = [];
@@ -44,32 +60,26 @@ console.log(`ownersEatTooLittle: ${ownersEatTooLittle}`);
 // console.log(...arrA);
 
 //? Task #4
+//! Task solution same as mine
 console.log(`${ownersEatTooMuch.join(" and ")}'s dogs eat too much!`);
 console.log(`${ownersEatTooLittle.join(" and ")}'s dogs eat too little!`);
 
 //? Task #5
+//! Task solution same as mine
 console.log(dogs.some((dog) => dog.curFood === dog.recommendedFood));
 
 //? Task #6
+//! Task solution same as mine
 console.log(dogs.some((dog) => dog.curFood > dog.recommendedFood * 0.9 && dog.curFood < dog.recommendedFood * 1.1));
 
 //? Task #7
+//! Task solution same as mine
 const eatingOkay = dogs.filter(
-	(dog) => dog.curFood > dog.recommendedFood * 0.9 && dog.curFood < dog.recommendedFood * 1.1
-);
-console.log(eatingOkay);
-
+    (dog) => dog.curFood > dog.recommendedFood * 0.9 && dog.curFood < dog.recommendedFood * 1.1
+    );
+    console.log(eatingOkay);
+    
 //? Task #8
-// slice will let us copy the array
-// we are doing ASC because we are displaying from the bottom to top
-// const movs = sort ? movements.slice().sort((a,b) => a - b) : movements;
-
-// movements.sort((a, b) => {
-//   if( a > b )
-//     return 1;
-//   if( b > a )
-//     return -1;
-// });
-// movements.sort((a, b) => a - b); // Sorts ASC
+//! Task solution same as mine
 const dogsSorted = dogs.slice().sort((a, b) => a.recommendedFood - b.recommendedFood);
 console.log(dogsSorted);
