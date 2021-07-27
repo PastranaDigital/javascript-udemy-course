@@ -399,20 +399,86 @@ const account1 = {
 // console.log(+(2.875).toFixed(2)); // returns a number
 
 
-//! The Remainder Operator
-console.log( 5 % 2); // 1
-console.log( 8 % 3); // 2
+// //! The Remainder Operator
+// console.log( 5 % 2); // 1
+// console.log( 8 % 3); // 2
 
-//? check if even number
-console.log( 13 % 2); // odd
-console.log( 34 % 2); // even
+// //? check if even number
+// console.log( 13 % 2); // odd
+// console.log( 34 % 2); // even
 
-const isEven = (num) => num % 2 === 0;
-console.log(isEven(8));
-console.log(isEven(11));
+// const isEven = (num) => num % 2 === 0;
+// console.log(isEven(8));
+// console.log(isEven(11));
 
-labelBalance.addEventListener ('click', function() {
-  [...document.querySelectorAll('.movements__row')].forEach((element, i) => {
-    if (i % 2 === 0) element.style.backgroundColor = '#FFD681';
-  });
-})
+// labelBalance.addEventListener ('click', function() {
+//   [...document.querySelectorAll('.movements__row')].forEach((element, i) => {
+//     if (i % 2 === 0) element.style.backgroundColor = '#FFD681';
+//   });
+// })
+
+// //! Working with BigInt (Big Integer)
+// //? can't mix with other types
+// console.log(2 ** 53 - 1);
+// console.log(Number.MAX_SAFE_INTEGER);
+
+// console.log(123456789123456789123456798123456);
+// console.log(123456789123456789123456798123456n);
+// console.log(BigInt(123564789));
+
+// //? Operations
+// console.log(100000n + 100000n);
+// console.log(789456789456789456789456n * 10000000n);
+
+// const huge = 456789132456789456123n;
+// const num = 23;
+// // console.log(huge * num);
+// console.log(huge * BigInt(num));
+
+// //? Exceptions
+// console.log(20n > 15);
+// console.log(20n === 15);
+// console.log(typeof 20n);
+// console.log(20n == '20');
+
+// console.log(huge + ' is REALLY big!');
+
+// //? Division
+// console.log(12n / 3n);
+// console.log(12n / 5n); // cuts off decimal
+// console.log(10n / 3);
+
+
+// //! Creating Dates
+// //? Create a date
+// const now = new Date();
+// console.log(now);
+
+// console.log(new Date('Jul 27 2021 16:27:55'));
+// console.log(new Date('December 24, 2015'));
+// console.log(new Date(account1.movementsDates[0]));
+
+// console.log(new Date(2037, 10, 19, 15, 23, 5)); // Nov 19
+// console.log(new Date(2037, 10, 31)); // Dec 01
+
+// console.log(new Date(0));
+// console.log(new Date(3 * 24 * 60 * 60 * 1000)); // 3 days later
+
+// //? Working with Dates
+// const future = new Date(2037, 10, 19, 15, 23);
+// console.log(future);
+// console.log(future.getFullYear()); // Don't use getYear
+// console.log(future.getMonth()); // Month is 0 based
+// console.log(future.getDate());
+// console.log(future.getDay());
+// console.log(future.getHours());
+// console.log(future.getMinutes());
+// console.log(future.getSeconds());
+// console.log(future.toISOString());
+// console.log(future.getTime()); // milliseconds that have passed since new Date(0);
+// console.log(new Date(2142278580000));
+
+// console.log(Date.now());
+
+// future.setFullYear(2040);
+// console.log(future);
