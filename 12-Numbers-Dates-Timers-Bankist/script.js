@@ -138,6 +138,9 @@ const account1 = {
     }
   }
 
+  const formatCurrency = function(value, locale, currency) {
+    return new Intl.NumberFormat(locale, {style: 'currency', currency: currency }).format(value);
+  }
   
   //! Creating DOM elements
   //? instead of using global variables, pass the data the function needs into the function
@@ -161,13 +164,15 @@ const account1 = {
       const date = new Date(acc.movementsDates[i]);
       const displayDate = formatMovementDate(date, acc.locale);
 
+      const formattedMov = formatCurrency(mov, acc.local, acc.currency);
+
       const html = `
           <div class="movements__row">
             <div class="movements__type movements__type--${type}">
               ${i + 1} ${type}
             </div>
             <div class="movements__date">${displayDate}</div>
-            <div class="movements__value">${mov.toFixed(2)}</div>
+            <div class="movements__value">${formattedMov}</div>
           </div>
       `;
       // MDN has great visual of how this works
@@ -195,7 +200,8 @@ const account1 = {
   
   const calcDisplayBalance = function(account) {
     account.balance = account.movements.reduce((acc, mov) => acc + mov, 0);
-    labelBalance.innerHTML = `${account.balance.toFixed(2)}€`;
+    const formattedMov = formatCurrency(account.balance, account.locale, account.currency);
+    labelBalance.innerHTML = `${formattedMov}`;
   };
   // calcDisplayBalance(account1);
   
@@ -205,11 +211,11 @@ const account1 = {
     const inMovements = account.movements
       .filter((mov) => mov > 0)
       .reduce((acc, mov) => acc + mov, 0);
-    labelSumIn.textContent = `${inMovements.toFixed(2)}€`;
+    labelSumIn.textContent = formatCurrency(inMovements, account.locale, account.currency);
     const outMovements = account.movements
       .filter((mov) => mov < 0)
       .reduce((acc, mov) => acc + mov, 0);
-    labelSumOut.textContent = `${Math.abs(outMovements).toFixed(2)}€`;
+    labelSumOut.textContent = formatCurrency(Math.abs(outMovements), account.locale, account.currency);
     const interest = account.movements
       .filter((mov) => mov > 0)
       .map(deposit => deposit * account.interestRate/100)
@@ -218,7 +224,7 @@ const account1 = {
         return int >= 1;
       })
       .reduce((acc, int) => acc + int, 0);
-    labelSumInterest.textContent = `${interest.toFixed(2)}€`;
+    labelSumInterest.textContent = formatCurrency(interest, account.locale, account.currency);
   };
   // calcDisplaySummaries(account1.movements);
   
@@ -236,11 +242,12 @@ const account1 = {
   
   //! Implementing Login
   let currentAccount;
+  let timer;
 
   // FAKE ALWAYS LOGGED IN---------------------------------------------------------------------
-  currentAccount = account1;
-  updateUI(currentAccount);
-  containerApp.style.opacity = 100;
+  // currentAccount = account1;
+  // updateUI(currentAccount);
+  // containerApp.style.opacity = 100;
   // ------------------------------------------------------------------------------------------
 
   //? experimenting with API
@@ -257,6 +264,34 @@ const account1 = {
   // const locale = navigator.language;
   // console.log(locale);
   // labelDate.textContent = new Intl.DateTimeFormat(locale, options).format(now);
+
+
+  
+
+  const startLogOutTimer = function() {
+    //? removed setInterval timer from inside the bigger function so it would quickly be shown at the beginning of UI
+    const tick = function() {
+      const min = String(Math.trunc(time/60)).padStart(2, 0);
+      const sec = String(time % 60).padStart(2, 0);
+      // in each call, print the remaining time
+      labelTimer.textContent = `${min}:${sec}`;
+      // when it reaches 0, stop timer and log out user
+      if(time === 0) {
+        clearInterval(timer);
+        labelWelcome.textContent = 'Log in to get started';
+        containerApp.style.opacity = 0;
+      }
+      //Decrease time
+      time--;
+    }
+    // set timer to 5 minutes
+    let time = 5 * 60;
+
+    // call the timer every second
+    tick();
+    const timer = setInterval(tick, 1000);
+    return timer;
+  }
 
 
   btnLogin.addEventListener('click', function (event) {
@@ -300,6 +335,11 @@ const account1 = {
       inputLoginUsername.blur();
       inputLoginPin.blur();
   
+      // timer
+      if(timer) clearInterval(timer); // just in case another user logged in before timer runs out
+      timer = startLogOutTimer();
+
+      // update UI
       updateUI(currentAccount);
   
       console.log('LOGGED IN');
@@ -342,6 +382,11 @@ const account1 = {
   
   
         updateUI(currentAccount);
+
+        // reset timer
+        clearInterval(timer);
+        timer = startLogOutTimer();
+
     } else {
       console.log('ERROR');
     }
@@ -382,7 +427,7 @@ const account1 = {
     const amount = Math.floor(inputLoanAmount.value); // rounding down
   
     if(amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
-      // add positive movement
+      setTimeout(function(){// add positive movement
       currentAccount.movements.push(amount);
   
       // clear input fields
@@ -394,7 +439,11 @@ const account1 = {
       currentAccount.movementsDates.push(new Date().toISOString());
   
       // Update UI
-      updateUI(currentAccount);
+      updateUI(currentAccount);}, 2500);
+
+      // reset timer
+      clearInterval(timer);
+      timer = startLogOutTimer();
     }
   })
   
@@ -564,13 +613,47 @@ const account1 = {
 // console.log(future);
 
 
-//! Operations with Dates
-//? when we try to convert a date into a number then it is converted to milliseconds from 
-const future = new Date (2037,10,19,15,23);
-console.log(+future);
+// //! Operations with Dates
+// //? when we try to convert a date into a number then it is converted to milliseconds from 
+// const future = new Date (2037,10,19,15,23);
+// console.log(+future);
 
-const calcDaysPassed = (date1, date2) => Math.round(Math.abs((date2 - date1) / (1000 * 60 * 60 * 24)));
-//? Moment .js is a library for time to use
+// const calcDaysPassed = (date1, date2) => Math.round(Math.abs((date2 - date1) / (1000 * 60 * 60 * 24)));
+// //? Moment .js is a library for time to use
 
-const days1 = calcDaysPassed(new Date(2037,3,14), new Date(2037,3,4));
-console.log(days1);
+// const days1 = calcDaysPassed(new Date(2037,3,14), new Date(2037,3,4));
+// console.log(days1);
+
+
+// //! Internationalize Numbers
+// const num = 5689780.43;
+
+// //? MDN documentation for more
+// const options = {
+//   style: 'unit', // percent || currency
+//   unit: 'mile-per-hour'
+// }
+
+// console.log('US:      ', new Intl.NumberFormat('en-US', options).format(num));
+// console.log('Germany: ', new Intl.NumberFormat('de-DE', options).format(num));
+// console.log('Syria:   ', new Intl.NumberFormat('ar-SY', options).format(num));
+// console.log('Browser: ', new Intl.NumberFormat(navigator.language, options).format(num), navigator.language);
+
+
+// //! setTimeout & setInterval
+// //? setTimeout
+// //? scheduled this action for later
+// //? the rest of the code is running
+// // setTimeout(() => console.log('here is your pizza'), 2000); // shows after 2 seconds
+// // setTimeout((ing1, ing2) => console.log(`here is your pizza with ${ing1} & ${ing2}`), 2000, 'ham', 'sausage'); // passing values into the callback function
+// const ingredients = ['pepperoni', 'bacon'];
+// const pizzaTimer = setTimeout((ing1, ing2) => console.log(`here is your pizza with ${ing1} & ${ing2}`), 2000, ...ingredients); // passing values into the callback function
+// console.log('waiting...');
+
+// if (ingredients.includes('pepperoni')) clearTimeout(pizzaTimer);
+
+// //? setInterval
+// setInterval(function() {
+//   const now = new Date();
+//   console.log(now);
+// }, 1000);
