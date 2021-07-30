@@ -560,6 +560,25 @@ const slider = function () {
 //? enhancement would be to pass in options like color of dot
 slider();
 
+//! Lifecycle DOM Events
+//? exercise code after all has loaded
 document.addEventListener("DOMContentLoaded", function (e) {
 	console.log("HTML parsed and DOM tree built!", e);
 });
+//? no need to do this since <script> is at the end of our HTML doc
+
+//? when complete page is loaded
+window.addEventListener("load", function (e) {
+	console.log("page fully loaded", e);
+});
+
+// //? before user leaves the site (easy to abuse)
+// window.addEventListener('beforeunload', function (e) {
+//   e.preventDefault();
+//   console.log(e);
+//   e.returnValue = '';
+// })
+
+//! efficient script loading (Async & Defer)
+//? defer is the best (it guarantees the order)
+//? async if the order doesn't exist
