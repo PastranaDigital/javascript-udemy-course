@@ -74,7 +74,6 @@
 // console.log(omar.hasOwnProperty("firstName"));
 // console.log(omar.hasOwnProperty("species"));
 
-
 // //! Prototypal Inheritance and the Prototype Chain
 // //? Prototype Chain:
 // //? the direct properties given to it from the Object and all the prototypal inheritance methods
@@ -100,7 +99,7 @@
 // //? all arrays will now inherit that method
 // console.log(arr.unique()); // length = 4
 
-// const h1 = document.querySelector('h1'); 
+// const h1 = document.querySelector('h1');
 // // Results show prototypes: HTMLHeaderElement -> HTMLElement -> Element -> Node -> EventTarget -> Object
 
 // console.dir(x => x+1);
@@ -136,7 +135,7 @@
 // 	}
 
 // 	//? setter for a property name that already exists
-// 	set fullName(name) { 
+// 	set fullName(name) {
 // 		console.log(name);
 // 		if(name.includes(' ')) this._fullName = name; // used _fullName since fullName is already a property
 // 		else alert(`${name} is not a full name!`);
@@ -215,7 +214,6 @@
 // PersonCl.hey(); // works
 // // jessica.hey(); // won't work
 
-
 // //? adding a static method Option 2 (FOUND IN CLASS DECLARATION)
 // PersonCl.hey2(); // works
 // // jessica.hey2(); // won't work
@@ -225,16 +223,16 @@
 // const PersonProto = {
 // 	calcAge() {
 // 		console.log(2021 - this.birthYear);
-// 	}
-// }
+// 	},
+// };
 
-// const steven = Object.create(PersonProto);
-// console.log(steven);
-// steven.name = 'Steven';
-// steven.birthYear = 2002;
-// steven.calcAge();
+// // const steven = Object.create(PersonProto);
+// // console.log(steven);
+// // steven.name = 'Steven';
+// // steven.birthYear = 2002;
+// // steven.calcAge();
 
-// console.log(steven.__proto__ === PersonProto);
+// // console.log(steven.__proto__ === PersonProto);
 
 // // adding properties a better way
 // const PersonProto2 = {
@@ -242,18 +240,18 @@
 // 		console.log(2021 - this.birthYear);
 // 	},
 
-// 	init(firstName, birthYear) { // similar to the constructor method in class declaration but it is not called with the new keyword
+// 	init(firstName, birthYear) {
+// 		// similar to the constructor method in class declaration but it is not called with the new keyword
 // 		this.firstName = firstName;
 // 		this.birthYear = birthYear;
-// 	}
-// }
+// 	},
+// };
 
 // const sarah = Object.create(PersonProto2);
 // sarah.init('Sarah', 1979);
 // sarah.calcAge();
 
-
-// //! Inheritance Between "Classes": Constructor Functions
+// //! Inheritance Between "Classes": Constructor Functions ---------------------------------
 // //? Student will inherit from Person
 // //? Student will have a few specific methods
 // //* 1. Using Constructor Functions
@@ -290,12 +288,11 @@
 // 	console.log(`My name is ${this.firstName}`);
 // }
 
-
 // const mike = new Student('Mike', 1988, 'Art');
 // mike.introduce();
 // mike.calcAge();
 
-// console.log(mike.__proto__); // 
+// console.log(mike.__proto__); //
 // console.log(mike.__proto__.__proto__);
 
 // console.log(mike instanceof Student);
@@ -305,8 +302,99 @@
 // Student.prototype.constructor = Student;
 // console.dir(Student.prototype.constructor);
 
+// //! Inheritance Between "Classes": ES6 Classes ---------------------------------
+// //? Student will inherit from Person
+// //? Student will have a few specific methods
+// //* it hides how this all happens in the background
 
-//! Inheritance Between "Classes": ES6 Classes
-//? Student will inherit from Person
-//? Student will have a few specific methods
+// class PersonCL {
+// 	constructor(fullName, birthYear) {
+// 		// must be called constructor
+// 		this.fullName = fullName;
+// 		this.birthYear = birthYear;
+// 	}
 
+// 	//* Instance Methods
+// 	//? this can be found now under the [[Prototype]] results in the console when logging jessica
+// 	calcAge() {
+// 		// similar to prototypal inheritance, this is only on this class and the children can access it (they will be added to the prototype)
+// 		console.log(2021 - this.birthYear);
+// 	} // no commas needed to separate
+
+// 	greet2() {
+// 		console.log(`Hello v2 ${this.fullName}!`);
+// 	}
+
+// 	get age() {
+// 		return 2021 - this.birthYear;
+// 	}
+
+// 	//? setter for a property name that already exists
+// 	set fullName(name) {
+// 		console.log(name);
+// 		if (name.includes(" ")) this._fullName = name;
+// 		// used _fullName since fullName is already a property
+// 		else alert(`${name} is not a full name!`);
+// 	}
+// 	//? since our setter was referencing the same name as a property we have to use a getter for when we want (ex: jessica.fullName)
+// 	get fullName() {
+// 		return this._fullName;
+// 	}
+
+// 	//? adding a static method Option 2
+// 	static hey2() {
+// 		console.log("HEY!!! HEY!!!");
+// 		console.log(this); // the object calling the method
+// 	}
+// }
+
+// //? don't need new parameters "course", could just share Person's and have its own methods
+// class StudentCL extends PersonCL {
+// 	constructor(fullName, birthYear, course) {
+// 		//* super = constructor of the parent function
+// 		//* Always needs to happen first because it determines the "this" for the class
+// 		super(fullName, birthYear);
+// 		this.course = course;
+// 	}
+
+// 	introduce() {
+// 		console.log(`My name is ${this.fullName}`);
+// 	}
+
+// 	calcAge() {
+// 		console.log("It doesn't matter!");
+// 	}
+// }
+
+// // const marta = new StudentCL("Marta Jones", 2008, "Engineering");
+// // console.log(marta);
+// // marta.introduce();
+// // marta.calcAge();
+// // console.log(marta.__proto__);
+// // console.log(marta.__proto__.__proto__);
+
+// //? making a new class but no new parameters
+// class StudentCL2 extends PersonCL {}
+
+// // const grace = new StudentCL2("Grace Rasmusson", 2006);
+// // console.log(grace);
+
+// //! Inheritance Between "Classes": Object.create ---------------------------------
+// //? Student will inherit from Person
+// //? Student will have a few specific methods
+
+// const steven = Object.create(PersonProto2);
+// //? established the prototype chain
+// const StudentProto = Object.create(PersonProto2);
+// StudentProto.init = function (firstName, birthYear, course) {
+// 	PersonProto2.init.call(this, firstName, birthYear);
+// 	this.course = course;
+// };
+// StudentProto.introduce = function () {
+// 	console.log(`My name is ${this.firstName}`);
+// };
+// const jay = Object.create(StudentProto);
+// console.log(jay);
+// jay.init("Jay", 2001, "Math");
+// jay.introduce();
+// jay.calcAge();
