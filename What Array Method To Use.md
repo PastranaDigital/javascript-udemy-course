@@ -14,7 +14,7 @@
 # A New Array
 ## computed from original
 - .map (loop)
-## filtered using comdition
+## filtered using condition
 - .filter
 ## portion of original
 - .slice
