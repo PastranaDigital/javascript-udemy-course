@@ -340,7 +340,7 @@ const whereAmI = async function () {
 		}
 		// console.log(response);
 		const data = await response.json();
-		console.log(data);
+		// console.log(data);
 		renderCountry(data[0]);
 
 		return `You are in ${dataGeo.city}`;
@@ -393,3 +393,88 @@ console.log("1: getting location");
 	}
 	console.log("3: location found");
 })();
+
+const getJSON = function (url, errorMsg = "Something went wrong") {
+	return fetch(url).then((response) => {
+		if (!response.ok) throw new Error(`${errorMsg} (${response.status})`);
+
+		return response.json();
+	});
+};
+
+//! Running promises in parallel
+//? run at same time but don't depend on the order
+// const get3Countries = async function (c1, c2, c3) {
+// 	try {
+// 		//? destructuring since we know that the data returning is an array with only one object in it
+// 		const [data1] = await getJSON(`https://restcountries.eu/rest/v2/name/${c1}`);
+// 		const [data2] = await getJSON(`https://restcountries.eu/rest/v2/name/${c2}`);
+// 		const [data3] = await getJSON(`https://restcountries.eu/rest/v2/name/${c3}`);
+
+// 		console.log(data1.capital, data2.capital, data3.capital);
+// 	} catch (err) {
+// 		console.error(err.message);
+// 	}
+// };
+
+//? this function really doesn't need to wait on each other bit of information to finish in order to work
+//? order doesn't matter here
+
+//? improved
+const get3Countries = async function (c1, c2, c3) {
+	try {
+		//? runs the array of promises and returns 1 promise
+		const data = await Promise.all([
+			getJSON(`https://restcountries.eu/rest/v2/name/${c1}`),
+			getJSON(`https://restcountries.eu/rest/v2/name/${c2}`),
+			getJSON(`https://restcountries.eu/rest/v2/name/${c3}`),
+		]);
+		// data.forEach((element) => console.log(element[0].capital));
+		console.log(data.map((d) => d[0].capital));
+	} catch (err) {
+		console.error(err.message);
+	}
+};
+
+get3Countries("Portugal", "Canada", "Thailand");
+
+//! Other Promise combinators: Race, allsettled and any
+// all receive an array and return 1 promise
+//* Promise.race
+//? the array races to be complete. first, if fulfilled, will be the fulfilled value of the whole promise
+(async function () {
+	const res = await Promise.race([
+		getJSON(`https://restcountries.eu/rest/v2/name/italy`),
+		getJSON(`https://restcountries.eu/rest/v2/name/germany`),
+		getJSON(`https://restcountries.eu/rest/v2/name/mexico`),
+	]);
+	console.log(res[0]);
+})();
+//? helpful for preventing neverending promise
+const timeout = function (sec) {
+	return new Promise(function (_, reject) {
+		setTimeout(function () {
+			reject(new Error("Request took too long!"));
+		}, sec * 1000);
+	});
+};
+
+Promise.race([getJSON("https://restcountries.eu/rest/v2/name/china"), timeout(0.01)])
+	.then((res) => console.log(res[0]))
+	.catch((err) => console.error(err));
+
+//? Promise.allSettled
+// takes an array and returns all the results of all the promises (never short circuits)
+Promise.allSettled([Promise.resolve("Success"), Promise.reject("ERROR"), Promise.resolve("Another Success")]).then(
+	(res) => console.log(res)
+);
+// VS
+Promise.all([Promise.resolve("Success"), Promise.reject("ERROR"), Promise.resolve("Another Success")])
+	.then((res) => console.log(res))
+	.catch((err) => console.error(err));
+
+//? Promise.any [ES2021]
+// takes an array and returns the first fulfilled promise (if one fulfilled)
+Promise.any([Promise.resolve("Success"), Promise.reject("ERROR"), Promise.resolve("Another Success")])
+	.then((res) => console.log(res))
+	.catch((err) => console.error(err));
