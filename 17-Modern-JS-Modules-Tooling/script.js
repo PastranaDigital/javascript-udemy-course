@@ -79,3 +79,8 @@ const stateDeepClone = cloneDeep(state);
 state.cart.push({ product: "oranges", quantity: 5 });
 console.log("state", state);
 console.log("stateDeepClone", stateDeepClone);
+
+//! Adding imports for helpful tools for Babel & Polyfilling
+
+import "core-js/stable";
+import "regenerator-runtime/runtime";
