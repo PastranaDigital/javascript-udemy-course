@@ -1,63 +1,63 @@
-#Readable Code
+# Readable Code
 
-## Write code so that OTHERS can understand it
+-   Write code so that OTHERS can understand it
 
-## Write code so that YOU can understand it in 1 year
+-   Write code so that YOU can understand it in 1 year
 
-## Avoid too "clever" and overcomplicated solutions
+-   Avoid too "clever" and overcomplicated solutions
 
-## Use descriptive variable names: WHAT THEY CONTAIN
+-   Use descriptive variable names: WHAT THEY CONTAIN
 
-## Use descriptive function names: WHAT THEY DO
+-   Use descriptive function names: WHAT THEY DO
 
-#General
+# General
 
-## Use DRY principle (refactor your code)
+-   Use DRY principle (refactor your code)
 
-## Don't pollute global namespace, encapsulate instead
+-   Don't pollute global namespace, encapsulate instead
 
-## Don't use VAR
+-   Don't use VAR
 
-## Use strong type checks (=== and !==)
+-   Use strong type checks (=== and !==)
 
-#Functions
+# Functions
 
-## Generally, functions should do ONLY ONE THING
+-   Generally, functions should do ONLY ONE THING
 
-## Don't use more than 3 function parameters
+-   Don't use more than 3 function parameters
 
-## Use default parameters whenever possible
+-   Use default parameters whenever possible
 
-## Generally, return the same data type as received
+-   Generally, return the same data type as received
 
-## Use arrow functions when they make code more readable
+-   Use arrow functions when they make code more readable
 
-#OOP
+# OOP
 
-## Use ES6 classes
+-   Use ES6 classes
 
-## Encapsulate data and DON'T MUTATE it from outside the class (can use public api)
+-   Encapsulate data and DON'T MUTATE it from outside the class (can use public api)
 
-## Implement method chaining
+-   Implement method chaining
 
-## Do NOT use arrow functions as methods (in regular objects) becuase you will not have the "this" keyword
+-   Do NOT use arrow functions as methods (in regular objects) becuase you will not have the "this" keyword
 
-#Avoid Nested Code
+# Avoid Nested Code
 
-## DO use early return (guard clauses)
+-   DO use early return (guard clauses)
 
-## DO use ternary (conditional) or logical operators instead of if
+-   DO use ternary (conditional) or logical operators instead of if
 
-## DO use multiple if instead of if/else-if
+-   DO use multiple if instead of if/else-if
 
-## AVOID for loops, use array methods instead (find, filter, forEach...)
+-   AVOID for loops, use array methods instead (find, filter, forEach...)
 
-## AVOID callback-based asynchronous APIs
+-   AVOID callback-based asynchronous APIs
 
-#Asynchronous Code
+# Asynchronous Code
 
-## Consume promises with async/await for best readability
+-   Consume promises with async/await for best readability
 
-## Whenever possible, run promises in parallel (Promise.all) if you don't have to wait for the results to run separately
+-   Whenever possible, run promises in parallel (Promise.all) if you don't have to wait for the results to run separately
 
-## Handle errors and promise rejections
+-   Handle errors and promise rejections
