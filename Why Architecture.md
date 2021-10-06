@@ -62,3 +62,10 @@ The perfect architecture is one that allows for all 3 of these
 3. MODEL - data flows to WEB and back
 4. CONTROLLER then VIEW - data is updated
 5. USER - data is presented
+
+# Publisher - Subscriber Pattern
+
+-   Events should be handled in the CONTROLLER (otherwise we would have application logic in the view)
+-   Events should be listened for in the VIEW (otherwise we would need DOM elements in the controller)
+-   Publisher = code that knows when to react
+-   Subscriber = code that wants to react

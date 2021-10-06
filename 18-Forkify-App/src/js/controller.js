@@ -1,175 +1,61 @@
-import icons from 'url:../img/icons.svg'; // helps Parcel know where the icons are
+//! Application Logic
+
+import * as model from './model.js';
+import recipeView from './views/recipeView.js';
+import searchView from './views/searchView.js';
+import resultsView from './views/resultsView.js';
+
 // helps make sure that most old browsers are supported
 import 'core-js/stable'; // Polyfilling everything else
 import 'regenerator-runtime/runtime'; // Polyfilling Async/Await
+import { async } from 'regenerator-runtime';
 
-const recipeContainer = document.querySelector('.recipe');
+// Parcel: activate the hot module reloading
+// we can make edits and save but the whole page won't refresh and make us lose our place
+if (module.hot) {
+	module.hot.accept();
+}
 
-const timeout = function (s) {
-  return new Promise(function (_, reject) {
-    setTimeout(function () {
-      reject(new Error(`Request took too long! Timeout after ${s} second`));
-    }, s * 1000);
-  });
+const controlRecipes = async function () {
+	try {
+		// Get the recipe Id
+		const id = window.location.hash.slice(1);
+
+		if (!id) return; // guard clause
+		recipeView.renderSpinner();
+
+		// 1. loading recipe
+		// an async function so it will return a promise
+		// after this we will have access to the model.state.recipe
+		await model.loadRecipe(id);
+
+		// 2. Rendering recipe
+		recipeView.render(model.state.recipe);
+	} catch (err) {
+		recipeView.renderError();
+	}
 };
 
-// https://forkify-api.herokuapp.com/v2
+const controlSearchResults = async function () {
+	try {
+		// resultsView.renderSpinner();
 
-///////////////////////////////////////
+		// 1. Get search query
+		const query = searchView.getQuery();
+		if (!query) return;
 
-const renderSpinner = function (parentEl) {
-  const markup = `
-    <div class="spinner">
-      <svg>
-        <use href="${icons}#icon-loader"></use>
-      </svg>
-    </div>
-  `;
-  parentEl.innerHTML = '';
-  parentEl.insertAdjacentHTML('afterbegin', markup);
+		// 2. Load search results
+		await model.loadSearchResults(query);
+
+		// 3. Render results
+		resultsView.render(model.state.search.results);
+	} catch (err) {
+		console.log(err);
+	}
 };
 
-const showRecipe = async function () {
-  try {
-    // Get the recipe Id
-    const id = window.location.hash.slice(1);
-
-    if (!id) return; // guard clause
-
-    // 1. loading recipe
-    renderSpinner(recipeContainer);
-    const response = await fetch(
-      // 'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886'
-      // 'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bcc40'
-      `https://forkify-api.herokuapp.com/api/v2/recipes/${id}`
-    );
-    const data = await response.json();
-
-    if (!response.ok) throw new Error(`${data.message} (${response.status})`);
-
-    let { recipe } = data.data;
-    //? reformatting the object to have better property names
-    recipe = {
-      id: recipe.id,
-      title: recipe.title,
-      publisher: recipe.publisher,
-      sourceUrl: recipe.source_url,
-      image: recipe.image_url,
-      servings: recipe.servings,
-      cookingTime: recipe.cooking_time,
-      ingredients: recipe.ingredients,
-    };
-
-    console.log(recipe);
-
-    // 2. Rendering recipe
-    const markup = `
-        <figure class="recipe__fig">
-          <img src="${recipe.image}" alt="${
-      recipe.title
-    }" class="recipe__img" />
-          <h1 class="recipe__title">
-            <span>${recipe.title}</span>
-          </h1>
-        </figure>
-
-        <div class="recipe__details">
-          <div class="recipe__info">
-            <svg class="recipe__info-icon">
-              <use href="${icons}#icon-clock"></use>
-            </svg>
-            <span class="recipe__info-data recipe__info-data--minutes">${
-              recipe.cookingTime
-            }</span>
-            <span class="recipe__info-text">minutes</span>
-          </div>
-          <div class="recipe__info">
-            <svg class="recipe__info-icon">
-              <use href="${icons}#icon-users"></use>
-            </svg>
-            <span class="recipe__info-data recipe__info-data--people">${
-              recipe.servings
-            }</span>
-            <span class="recipe__info-text">servings</span>
-
-            <div class="recipe__info-buttons">
-              <button class="btn--tiny btn--increase-servings">
-                <svg>
-                  <use href="${icons}#icon-minus-circle"></use>
-                </svg>
-              </button>
-              <button class="btn--tiny btn--increase-servings">
-                <svg>
-                  <use href="${icons}#icon-plus-circle"></use>
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <div class="recipe__user-generated">
-            <svg>
-              <use href="${icons}#icon-user"></use>
-            </svg>
-          </div>
-          <button class="btn--round">
-            <svg class="">
-              <use href="${icons}#icon-bookmark-fill"></use>
-            </svg>
-          </button>
-        </div>
-
-        <div class="recipe__ingredients">
-          <h2 class="heading--2">Recipe ingredients</h2>
-          <ul class="recipe__ingredient-list">
-            ${recipe.ingredients
-              .map(ing => {
-                return `
-                <li class="recipe__ingredient">
-                  <svg class="recipe__icon">
-                    <use href="${icons}#icon-check"></use>
-                  </svg>
-                  <div class="recipe__quantity">${ing.quantity}</div>
-                  <div class="recipe__description">
-                    <span class="recipe__unit">${ing.unit}</span>
-                    ${ing.description}
-                  </div>
-                </li>
-              `;
-              })
-              .join('')}
-          </ul>
-        </div>
-
-        <div class="recipe__directions">
-          <h2 class="heading--2">How to cook it</h2>
-          <p class="recipe__directions-text">
-            This recipe was carefully designed and tested by
-            <span class="recipe__publisher">${
-              recipe.publisher
-            }</span>. Please check out
-            directions at their website.
-          </p>
-          <a
-            class="btn--small recipe__btn"
-            href="${recipe.sourceUrl}"
-            target="_blank"
-          >
-            <span>Directions</span>
-            <svg class="search__icon">
-              <use href="${icons}#icon-arrow-right"></use>
-            </svg>
-          </a>
-        </div>
-    `;
-    // clear the current contents
-    recipeContainer.innerHTML = '';
-    // add the markup
-    recipeContainer.insertAdjacentHTML('afterbegin', markup);
-  } catch (err) {
-    alert(err);
-  }
+const init = function () {
+	recipeView.addHandlerRender(controlRecipes);
+	searchView.addHandlerSearch(controlSearchResults);
 };
-// showRecipe();
-
-// adding eventlistener for multiple events
-['hashchange', 'load'].forEach(ev => window.addEventListener(ev, showRecipe));
+init();
