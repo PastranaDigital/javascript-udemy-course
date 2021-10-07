@@ -5,6 +5,7 @@ import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
 import paginationView from './views/paginationView.js';
+import bookmarksView from './views/bookmarksView.js';
 
 //? helps make sure that most old browsers are supported
 import 'core-js/stable'; // Polyfilling everything else
@@ -13,9 +14,9 @@ import { async } from 'regenerator-runtime';
 
 //? Parcel: activate the hot module reloading
 //? we can make edits and save but the whole page won't refresh and make us lose our place
-// if (module.hot) {
-// 	module.hot.accept();
-// }
+if (module.hot) {
+	module.hot.accept();
+}
 
 const controlRecipes = async function () {
 	try {
@@ -24,6 +25,10 @@ const controlRecipes = async function () {
 
 		if (!id) return; // guard clause
 		recipeView.renderSpinner();
+
+		//? 0. Update results view to mark the selected search result (using update algorithm)
+		resultsView.update(model.getSearchResultsPage());
+		bookmarksView.update(model.state.bookmarks);
 
 		//? 1. loading recipe
 		//? an async function so it will return a promise
@@ -60,7 +65,6 @@ const controlSearchResults = async function () {
 };
 
 const controlCLick = function (goToPage) {
-	console.log('Pag controller');
 	//? 1. Render more results
 	resultsView.render(model.getSearchResultsPage(goToPage));
 	//? 2. Render NEW pagination buttons
@@ -74,9 +78,26 @@ const controlServings = function (newServings) {
 	recipeView.update(model.state.recipe);
 };
 
+const controlAddBookmark = function () {
+	//? 1. add or delete bookmark
+	if (!model.state.recipe.bookmarked) model.addBookmark(model.state.recipe);
+	else model.deleteBookmark(model.state.recipe.id);
+	// console.log(model.state.recipe);
+	//? 2. update recipe view
+	recipeView.update(model.state.recipe);
+	//? 3. render bookmarks
+	bookmarksView.render(model.state.bookmarks);
+};
+
+const controlBookmarks = function () {
+	bookmarksView.render(model.state.bookmarks);
+};
+
 const init = function () {
+	bookmarksView.addHandlerRender(controlBookmarks);
 	recipeView.addHandlerRender(controlRecipes);
 	recipeView.addHandlerUpdateServings(controlServings);
+	recipeView.addHandlerAddBookmark(controlAddBookmark);
 	searchView.addHandlerSearch(controlSearchResults);
 	paginationView.addHandlerClick(controlCLick);
 };
