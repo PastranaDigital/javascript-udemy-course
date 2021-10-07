@@ -1,5 +1,5 @@
 //! All commonly used functions
-import { TIMEOUT_SEC } from "./config.js";
+import { TIMEOUT_SEC } from './config.js';
 
 const timeout = function (s) {
 	return new Promise(function (_, reject) {
@@ -17,7 +17,7 @@ export const getJSON = async function (url) {
 		if (!response.ok) throw new Error(`${data.message} (${response.status})`);
 		return data;
 	} catch (err) {
-		// error will be handled in the model.js
+		//? error will be handled in the model.js
 		throw err;
 	}
 };

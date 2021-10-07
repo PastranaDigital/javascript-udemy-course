@@ -1,16 +1,29 @@
 //! Presentation Logic
-import icons from 'url:../../img/icons.svg'; // helps Parcel know where the icons are
+import icons from 'url:../../img/icons.svg'; //? helps Parcel know where the icons are
 import { Fraction } from 'fractional';
 import View from './View.js';
+import { state } from '../model.js';
 
-// This will eventually have a parent view that all the views will inheret
+//? This will eventually have a parent view that all the views will inheret
 class RecipeView extends View {
 	_parentElement = document.querySelector('.recipe');
 	_errorMessage = 'ID error. Please try another recipe';
 	_message = 'Hurray!';
 
+	// Publisher
+	addHandlerUpdateServings(handler) {
+		this._parentElement.addEventListener('click', function (e) {
+			const btn = e.target.closest('.btn--update-servings');
+			if (!btn) return;
+			// const updateTo = +btn.dataset.updateTo;
+			//? used destructuring because the variable & property had the same name
+			let { updateTo } = btn.dataset;
+			if (+updateTo > 0) handler(+updateTo); //? + converts to a number like Number()
+		});
+	}
+
 	addHandlerRender(handler) {
-		// adding eventlistener for multiple events
+		//? adding eventlistener for multiple events
 		['hashchange', 'load'].forEach((ev) => window.addEventListener(ev, handler));
 	}
 
@@ -39,12 +52,12 @@ class RecipeView extends View {
 					<span class="recipe__info-text">servings</span>
 
 					<div class="recipe__info-buttons">
-						<button class="btn--tiny btn--increase-servings">
+						<button data-update-to="${this._data.servings - 1}" class="btn--tiny btn--update-servings">
 							<svg>
 							<use href="${icons}#icon-minus-circle"></use>
 							</svg>
 						</button>
-						<button class="btn--tiny btn--increase-servings">
+						<button data-update-to="${this._data.servings + 1}" class="btn--tiny btn--update-servings">
 							<svg>
 							<use href="${icons}#icon-plus-circle"></use>
 							</svg>
@@ -105,5 +118,5 @@ class RecipeView extends View {
 	}
 }
 
-// we will only export this object
+//? we will only export this object
 export default new RecipeView();

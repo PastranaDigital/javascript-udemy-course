@@ -1,6 +1,6 @@
 //! Parent class for all other views
 //! Presentation Logic
-import icons from 'url:../../img/icons.svg'; // helps Parcel know where the icons are
+import icons from 'url:../../img/icons.svg'; //? helps Parcel know where the icons are
 
 export default class View {
 	_data;
@@ -10,10 +10,39 @@ export default class View {
 
 		this._data = data;
 		const markup = this._generateMarkup();
-		// clear the current contents
+		//? clear the current contents
 		this._clear();
-		// add the markup
+		//? add the markup
 		this._parentElement.insertAdjacentHTML('afterbegin', markup);
+	}
+
+	update(data) {
+		if (!data || (Array.isArray(data) && data.length === 0)) return this.renderError();
+
+		this._data = data;
+		const newMarkup = this._generateMarkup();
+
+		//? converts the string (newMarkup) to a virtual DOM so we can compare the HTML to old version
+		const newDOM = document.createRange().createContextualFragment(newMarkup);
+		const newElements = Array.from(newDOM.querySelectorAll('*'));
+		// const newElements = newDOM.querySelectorAll('*');
+		//? if we used the old render method, the following would have been rendered
+		// console.log(newElements);
+		const currentElements = Array.from(this._parentElement.querySelectorAll('*'));
+
+		newElements.forEach((newEl, i) => {
+			const curEl = currentElements[i];
+
+			//? only happens on text changes directly
+			if (!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue.trim() !== '') {
+				//? explaination for why needing the .firstChild can be found in the Advanced DOM lectures
+				curEl.textContent = newEl.textContent;
+			}
+
+			//? updates changed attributes
+			if (!newEl.isEqualNode(curEl))
+				Array.from(newEl.attributes).forEach((attr) => curEl.setAttribute(attr.name, attr.value));
+		});
 	}
 
 	_clear() {

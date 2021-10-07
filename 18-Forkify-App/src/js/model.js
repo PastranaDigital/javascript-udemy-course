@@ -35,9 +35,9 @@ export const loadRecipe = async function (id) {
 			ingredients: recipe.ingredients,
 		};
 	} catch (err) {
-		// Temp error handling
+		//? Temp error handling
 		console.error(`*** ${err} ***`);
-		// so the controller can handle it
+		//? so the controller can handle it
 		throw err;
 	}
 };
@@ -57,20 +57,25 @@ export const loadSearchResults = async function (query) {
 			};
 		});
 	} catch (err) {
-		// Temp error handling
+		//? Temp error handling
 		console.error(`*** ${err} ***`);
-		// so the controller can handle it
+		//? so the controller can handle it
 		throw err;
 	}
 };
 
-// not async since we will already have the data
+//? not async since we will already have the data
 //? pagination
 export const getSearchResultsPage = function (page = state.search.page) {
 	state.search.page = page;
-	const start = (page - 1) * state.search.resultsPerPage; // 0
-	const end = page * state.search.resultsPerPage; // 10
+	const start = (page - 1) * state.search.resultsPerPage; //? 0
+	const end = page * state.search.resultsPerPage; //? 10
 	console.log(`Page #${page}`);
 
-	return state.search.results.slice(start, end); // slice doesn't include the end value
+	return state.search.results.slice(start, end); //? slice doesn't include the end value
+};
+
+export const updateServings = function (newServings) {
+	state.recipe.ingredients.forEach((ing) => (ing.quantity = (ing.quantity * newServings) / state.recipe.servings));
+	state.recipe.servings = newServings;
 };

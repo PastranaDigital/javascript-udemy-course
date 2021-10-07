@@ -13,7 +13,7 @@ class SearchView {
 		this._parentElement.querySelector('.search__field').value = '';
 	}
 
-	// Publisher
+	//? Publisher
 	addHandlerSearch(handler) {
 		this._parentElement.addEventListener('submit', function (e) {
 			e.preventDefault();

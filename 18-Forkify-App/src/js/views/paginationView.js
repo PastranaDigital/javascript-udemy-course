@@ -8,11 +8,11 @@ class PaginationView extends View {
 	_message = 'Hurray!';
 
 	_generateMarkup() {
-		// this._data now has all the search results object
+		//? this._data now has all the search results object
 		const currentPage = this._data.page;
 		const numPages = Math.ceil(this._data.results.length / this._data.resultsPerPage);
 
-		// On page 1 and there are more results
+		//? On page 1 and there are more results
 		if (currentPage === 1 && numPages > 1) {
 			return `
 				<button data-goto="${currentPage + 1}" class="btn--inline pagination__btn--next">
@@ -23,7 +23,7 @@ class PaginationView extends View {
 				</button>
 			`;
 		}
-		// On page 2+ and there are more results
+		//? On page 2+ and there are more results
 		if (currentPage < numPages) {
 			return `
 				<button data-goto="${currentPage - 1}" class="btn--inline pagination__btn--prev">
@@ -40,7 +40,7 @@ class PaginationView extends View {
 				</button>
 			`;
 		}
-		// On last page of results
+		//? On last page of results
 		if (currentPage === numPages && numPages > 1) {
 			return `
 				<button data-goto="${currentPage - 1}" class="btn--inline pagination__btn--prev">
@@ -51,17 +51,16 @@ class PaginationView extends View {
 				</button>
 			`;
 		}
-		// On page 1 and only 1 page of results
+		//? On page 1 and only 1 page of results
 		return '';
 	}
 
-	// Publisher
+	//? Publisher
 	addHandlerClick(handler) {
 		this._parentElement.addEventListener('click', function (e) {
-			e.preventDefault();
-			const btn = e.target.closest('.btn--inline'); // search up the DOM
+			const btn = e.target.closest('.btn--inline'); //? search up the DOM
 			if (!btn) return;
-			const goToPage = Number(btn.dataset.goto);
+			const goToPage = +btn.dataset.goto;
 			handler(goToPage);
 		});
 	}
