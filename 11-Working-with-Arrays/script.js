@@ -536,51 +536,51 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 // movements.sort((a, b) => a - b); // Sorts ASC
 
 
-//! More ways to creating and filling arrays
-//? FILL method
-console.log([1,2,3,4,5,6,7]);
-console.log(new Array(1,2,3,4,5,6,7));
+// //! More ways to creating and filling arrays
+// //? FILL method
+// console.log([1,2,3,4,5,6,7]);
+// console.log(new Array(1,2,3,4,5,6,7));
 
-const x = new Array(7); // creates an empty array & can't do map on it
-console.log(x);
-console.log(x.map(() => 5)); // doesn't work
-x.fill(1); // all elements are now 1
-x.fill(2, 3); // starting at 3, all are now 2 
-x.fill(9, 4, 6); // starting at 4 and going to 6, they are now 9
-console.log(x);
+// const x = new Array(7); // creates an empty array & can't do map on it
+// console.log(x);
+// console.log(x.map(() => 5)); // doesn't work
+// x.fill(1); // all elements are now 1
+// x.fill(2, 3); // starting at 3, all are now 2 
+// x.fill(9, 4, 6); // starting at 4 and going to 6, they are now 9
+// console.log(x);
 
-const arr = [1,2,3,4,5,6,7];
-arr.fill(23, 2, 6);
-console.log(arr);
+// const arr = [1,2,3,4,5,6,7];
+// arr.fill(23, 2, 6);
+// console.log(arr);
 
-//? Array.from method (called on the Array constructor)
-//                                callback function (this one doesn't have any parameters)
-const y = Array.from({length: 7}, () => 1);
-console.log(y);
+// //? Array.from method (called on the Array constructor)
+// //                                callback function (this one doesn't have any parameters)
+// const y = Array.from({length: 7}, () => 1);
+// console.log(y);
 
-// first parameter is current element but we are not using it
-const z = Array.from({length:7}, (_, i) => i+1);
-console.log(z);
+// // first parameter is current element but we are not using it
+// const z = Array.from({length:7}, (_, i) => i+1);
+// console.log(z);
 
-//? challenge to make 100 random dice rolls
-const randomDiceRoll = Array.from({length: 100}, () => Math.trunc( Math.random()*6 + 1));
-console.log(randomDiceRoll);
+// //? challenge to make 100 random dice rolls
+// const randomDiceRoll = Array.from({length: 100}, () => Math.trunc( Math.random()*6 + 1));
+// console.log(randomDiceRoll);
 
-//? real-world example
-// use can use the Array.from to create arrays from iterables
+// //? real-world example
+// // use can use the Array.from to create arrays from iterables
 
-labelBalance.addEventListener('click', function () {
-  // const movementsUI = Array.from(document.querySelectorAll('.movements__value'));
-  // console.log(movementsUI);
-  // console.log(movementsUI.map(el => Number(el.textContent.replace('€',''))));
+// labelBalance.addEventListener('click', function () {
+//   // const movementsUI = Array.from(document.querySelectorAll('.movements__value'));
+//   // console.log(movementsUI);
+//   // console.log(movementsUI.map(el => Number(el.textContent.replace('€',''))));
   
-  //? better way to do it since Array.from has a callback function parameter
-  const movementsUI = Array.from(document.querySelectorAll('.movements__value'), el => Number(el.textContent.replace('€','')));
-  console.log(movementsUI);
+//   //? better way to do it since Array.from has a callback function parameter
+//   const movementsUI = Array.from(document.querySelectorAll('.movements__value'), el => Number(el.textContent.replace('€','')));
+//   console.log(movementsUI);
 
-  //? another way that works but it means we have to use the map method
-  const movementsUI2 = [...document.querySelectorAll('.movements__value')];
-})
+//   //? another way that works but it means we have to use the map method
+//   const movementsUI2 = [...document.querySelectorAll('.movements__value')];
+// })
 
 //! Which array method to use?
 //? Mutate Original
@@ -637,3 +637,59 @@ labelBalance.addEventListener('click', function () {
 //? To Just Loop Array
 //* based on callback function
 // .forEach (does not create a new array, just loops over it)
+
+
+// //! More Array Practice
+// //? Exercise #1
+// const bankDepositSum = accounts
+//   .flatMap(acc => acc.movements)
+//   .filter(mov => mov > 0)
+//   .reduce((sum, cur) => sum + cur, 0);
+// console.log(bankDepositSum);
+
+// //? Exercise #2
+// const numDeposits1000 = accounts
+//   .flatMap(acc => acc.movements)
+//   .filter(mov => mov >= 1000).length;
+// console.log(numDeposits1000);
+
+// //? Exercise #2 using reduce to count
+// const numDeposits1000v2 = accounts
+//   .flatMap(acc => acc.movements)
+//   .reduce((count, cur) => cur >= 1000 ? count + 1 : count , 0); // count++ won't work here
+// console.log(numDeposits1000v2);
+
+// //? Exercise #3 - create a new object using reduce of the sum of deposits and withdrawals
+// const sums = accounts
+//   .flatMap(acc => acc.movements)
+//   .reduce((sums, cur) => {
+//     cur > 0 ? sums.deposits += cur : sums.withdrawals += cur;
+//     return sums;
+//   }, {deposits: 0, withdrawals: 0});
+// console.log(sums);
+// //? using destruction
+// const {deposits, withdrawals} = accounts
+//   .flatMap(acc => acc.movements)
+//   .reduce((sums, cur) => {
+//     // cur > 0 ? sums.deposits += cur : sums.withdrawals += cur;
+//     sums[cur > 0 ? 'deposits' : 'withdrawals'] += cur;
+//     return sums;
+//   }, {deposits: 0, withdrawals: 0});
+// console.log(deposits, withdrawals);
+
+// //? Exercise #4 - create a Title case
+// const convertTitleCase = function(title) {
+//   const capitalize = string => string[0].toUpperCase() + string.slice(1);
+  
+//   const exceptions = ['a', 'an', 'the', 'but', 'or', 'on', 'in', 'with'];
+//   const titleCase = title
+//     .toLowerCase()
+//     .split(" ")
+//     .map(word => exceptions.includes(word) ? word : capitalize(word))
+//     .join(' ');
+
+//   return capitalize(titleCase);
+// }
+// console.log(convertTitleCase('this is a nice title'));
+// console.log(convertTitleCase('and ANOTHER title with an exception'));
+// console.log(convertTitleCase('the story of a Man on a mission'));
