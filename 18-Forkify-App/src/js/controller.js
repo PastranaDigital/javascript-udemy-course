@@ -4,6 +4,7 @@ import * as model from './model.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
+import paginationView from './views/paginationView.js';
 
 // helps make sure that most old browsers are supported
 import 'core-js/stable'; // Polyfilling everything else
@@ -12,9 +13,9 @@ import { async } from 'regenerator-runtime';
 
 // Parcel: activate the hot module reloading
 // we can make edits and save but the whole page won't refresh and make us lose our place
-if (module.hot) {
-	module.hot.accept();
-}
+// if (module.hot) {
+// 	module.hot.accept();
+// }
 
 const controlRecipes = async function () {
 	try {
@@ -48,14 +49,27 @@ const controlSearchResults = async function () {
 		await model.loadSearchResults(query);
 
 		// 3. Render results
-		resultsView.render(model.state.search.results);
+		// resultsView.render(model.state.search.results); // rendered all the results
+		resultsView.render(model.getSearchResultsPage());
+
+		// 4. Render initial pagination buttons
+		paginationView.render(model.state.search);
 	} catch (err) {
 		console.log(err);
 	}
 };
 
+const controlCLick = function (goToPage) {
+	console.log('Pag controller');
+	// 1. Render more results
+	resultsView.render(model.getSearchResultsPage(goToPage));
+	// 2. Render NEW pagination buttons
+	paginationView.render(model.state.search);
+};
+
 const init = function () {
 	recipeView.addHandlerRender(controlRecipes);
 	searchView.addHandlerSearch(controlSearchResults);
+	paginationView.addHandlerClick(controlCLick);
 };
 init();

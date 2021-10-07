@@ -2,15 +2,17 @@
 //! State
 //! HTTP Library
 
-import { async } from "regenerator-runtime";
-import { API_URL } from "./config.js";
-import { getJSON } from "./helper.js";
+import { async } from 'regenerator-runtime';
+import { API_URL, RESULTS_PER_PAGE } from './config.js';
+import { getJSON } from './helper.js';
 
 export const state = {
 	recipe: {},
 	search: {
-		query: "",
+		query: '',
 		results: [],
+		resultsPerPage: RESULTS_PER_PAGE,
+		page: 1,
 	},
 };
 
@@ -60,4 +62,15 @@ export const loadSearchResults = async function (query) {
 		// so the controller can handle it
 		throw err;
 	}
+};
+
+// not async since we will already have the data
+//? pagination
+export const getSearchResultsPage = function (page = state.search.page) {
+	state.search.page = page;
+	const start = (page - 1) * state.search.resultsPerPage; // 0
+	const end = page * state.search.resultsPerPage; // 10
+	console.log(`Page #${page}`);
+
+	return state.search.results.slice(start, end); // slice doesn't include the end value
 };
