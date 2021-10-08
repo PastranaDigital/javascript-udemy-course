@@ -125,3 +125,48 @@ const clearBookmarks = function () {
 	localStorage.clear('bookmarks');
 };
 // clearBookmarks();
+
+export const uploadRecipe = async function (newRecipe) {
+	try {
+		const ingredients = Object.entries(newRecipe)
+			.filter((entry) => entry[0].startsWith('ingredient') && entry[1] !== '')
+			.map((ing) => {
+				const ingArray = ing[1].replaceAll(' ', '').split(',');
+				//? validate format
+				if (ingArray.length !== 3) throw new Error('Wrong ingredient format. Please use the correct format.');
+				const [quantity, unit, description] = ingArray;
+				return { quantity: quantity ? +quantity : null, unit, description };
+			});
+		console.log(ingredients);
+
+		//! His solution
+		// const ingredients = Object.entries(newRecipe)
+		// 	.filter((entry) => entry[0].startsWith('ingredient') && entry[1] !== '')
+		// 	.map((ing) => {
+		// 		const [quantity, unit, description] = ing[1].replaceAll(' ', '').split(',');
+		// 		return { quantity: quantity ? +quantity : null, unit, description };
+		// 	});
+		// console.log(ingredients);
+
+		//? My attempt at doing this as a challenge
+		// console.log('newRecipe', newRecipe);
+		// let iterator = 1;
+		// const ingArray = [];
+		// for (const [key, value] of Object.entries(newRecipe)) {
+		// 	if (iterator > 6) {
+		// 		if (!value) break;
+		// 		console.log('value', value);
+		// 		let tempObj = {};
+		// 		const valSplit = value.split(',');
+		// 		tempObj.quantity = valSplit[0];
+		// 		tempObj.unit = valSplit[1];
+		// 		tempObj.description = valSplit[2];
+		// 		ingArray.push(tempObj);
+		// 	}
+		// 	iterator++;
+		// }
+		// console.log('ingArray', ingArray);
+	} catch (error) {
+		throw error;
+	}
+};

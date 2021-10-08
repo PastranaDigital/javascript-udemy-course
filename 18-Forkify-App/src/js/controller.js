@@ -6,6 +6,7 @@ import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
 import paginationView from './views/paginationView.js';
 import bookmarksView from './views/bookmarksView.js';
+import addRecipeView from './views/addRecipeView.js';
 
 //? helps make sure that most old browsers are supported
 import 'core-js/stable'; // Polyfilling everything else
@@ -93,6 +94,17 @@ const controlBookmarks = function () {
 	bookmarksView.render(model.state.bookmarks);
 };
 
+const controlAddRecipe = async function (newRecipe) {
+	try {
+		//? upload data through model
+		//? await since the upload is async
+		await model.uploadRecipe(newRecipe);
+	} catch (error) {
+		console.error(error);
+		addRecipeView.renderError(error.message);
+	}
+};
+
 const init = function () {
 	bookmarksView.addHandlerRender(controlBookmarks);
 	recipeView.addHandlerRender(controlRecipes);
@@ -100,5 +112,6 @@ const init = function () {
 	recipeView.addHandlerAddBookmark(controlAddBookmark);
 	searchView.addHandlerSearch(controlSearchResults);
 	paginationView.addHandlerClick(controlCLick);
+	addRecipeView.addHandlerUpload(controlAddRecipe);
 };
 init();
