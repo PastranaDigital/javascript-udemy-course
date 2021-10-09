@@ -7,6 +7,7 @@ import resultsView from './views/resultsView.js';
 import paginationView from './views/paginationView.js';
 import bookmarksView from './views/bookmarksView.js';
 import addRecipeView from './views/addRecipeView.js';
+import { MODAL_CLOSE_SECONDS } from './config.js';
 
 //? helps make sure that most old browsers are supported
 import 'core-js/stable'; // Polyfilling everything else
@@ -96,9 +97,24 @@ const controlBookmarks = function () {
 
 const controlAddRecipe = async function (newRecipe) {
 	try {
+		//? Render a loading spinner before trying to add data
+		addRecipeView.renderSpinner();
+
 		//? upload data through model
 		//? await since the upload is async
 		await model.uploadRecipe(newRecipe);
+		// console.log(model.state.recipe);
+
+		//? Render newly uploaded recipe
+		recipeView.render(model.state.recipe);
+
+		//? Render Success Message
+		addRecipeView.renderMessage();
+
+		//? Close the modal
+		setTimeout(function (params) {
+			addRecipeView.toggleWindow();
+		}, MODAL_CLOSE_SECONDS * 1000);
 	} catch (error) {
 		console.error(error);
 		addRecipeView.renderError(error.message);

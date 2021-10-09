@@ -3,8 +3,8 @@
 //! HTTP Library
 
 import { async } from 'regenerator-runtime';
-import { API_URL, RESULTS_PER_PAGE } from './config.js';
-import { getJSON } from './helper.js';
+import { API_URL, RESULTS_PER_PAGE, KEY } from './config.js';
+import { getJSON, sendJSON } from './helper.js';
 
 export const state = {
 	recipe: {},
@@ -17,24 +17,32 @@ export const state = {
 	bookmarks: [],
 };
 
+const createRecipeObject = function (data) {
+	//? reformatting the object to have better property names
+	const { recipe } = data.data;
+	return {
+		id: recipe.id,
+		title: recipe.title,
+		publisher: recipe.publisher,
+		sourceUrl: recipe.source_url,
+		image: recipe.image_url,
+		servings: recipe.servings,
+		cookingTime: recipe.cooking_time,
+		ingredients: recipe.ingredients,
+		//! conditionally add properties trick
+		//? if recipe.key is falsey then the && shortcircuits and nothing is stored
+		//? otherwise, spread this {key : recipe.key} to add to recipe object
+		...(recipe.key && { key: recipe.key }),
+	};
+};
+
 //* will not return anything
 //* will only change our state object
 export const loadRecipe = async function (id) {
 	try {
 		const data = await getJSON(`${API_URL}${id}`);
+		state.recipe = createRecipeObject(data);
 
-		const { recipe } = data.data;
-		//? reformatting the object to have better property names
-		state.recipe = {
-			id: recipe.id,
-			title: recipe.title,
-			publisher: recipe.publisher,
-			sourceUrl: recipe.source_url,
-			image: recipe.image_url,
-			servings: recipe.servings,
-			cookingTime: recipe.cooking_time,
-			ingredients: recipe.ingredients,
-		};
 		state.bookmarks.some((bookmark) => bookmark.id === id)
 			? (state.recipe.bookmarked = true)
 			: (state.recipe.bookmarked = false);
@@ -137,7 +145,7 @@ export const uploadRecipe = async function (newRecipe) {
 				const [quantity, unit, description] = ingArray;
 				return { quantity: quantity ? +quantity : null, unit, description };
 			});
-		console.log(ingredients);
+		// console.log(ingredients);
 
 		//! His solution
 		// const ingredients = Object.entries(newRecipe)
@@ -166,6 +174,21 @@ export const uploadRecipe = async function (newRecipe) {
 		// 	iterator++;
 		// }
 		// console.log('ingArray', ingArray);
+
+		const recipe = {
+			title: newRecipe.title,
+			source_url: newRecipe.sourceUrl,
+			image_url: newRecipe.image,
+			publisher: newRecipe.publisher,
+			cooking_time: +newRecipe.cookingTime,
+			servings: +newRecipe.servings,
+			ingredients,
+		};
+		console.log(recipe);
+		//? 7833026a-d698-40d4-ab61-06372f7e1a3f
+		const data = await sendJSON(`${API_URL}?key=${KEY}`, recipe);
+		state.recipe = createRecipeObject(data);
+		addBookmark(state.recipe);
 	} catch (error) {
 		throw error;
 	}
