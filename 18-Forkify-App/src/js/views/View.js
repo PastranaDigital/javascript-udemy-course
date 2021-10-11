@@ -5,6 +5,14 @@ import icons from 'url:../../img/icons.svg'; //? helps Parcel know where the ico
 export default class View {
 	_data;
 
+	/**
+	 * Render the received object to the DOM
+	 * @param {Object | Object[]} data The data to be rendered (e.g. recipe)
+	 * @param {boolean} [render=true] (optional) If false, create markup string instead of rendering to the DOM
+	 * @returns {undefined | string} A markyp string is returned if render=false
+	 * @this {Object} View instance
+	 * @author Jonas & Omar
+	 */
 	render(data, render = true) {
 		if (!data || (Array.isArray(data) && data.length === 0)) return this.renderError();
 

@@ -111,6 +111,13 @@ const controlAddRecipe = async function (newRecipe) {
 		//? Render Success Message
 		addRecipeView.renderMessage();
 
+		//? Render Bookmark View
+		//? using render instead of update because we want to add a new element
+		bookmarksView.render(model.state.bookmarks);
+
+		//? Change ID in the URL
+		window.history.pushState(null, '', `#${model.state.recipe.id}`);
+
 		//? Close the modal
 		setTimeout(function (params) {
 			addRecipeView.toggleWindow();
